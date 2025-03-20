@@ -65,4 +65,22 @@ export const categories = [
     image:
       'https://i.pinimg.com/474x/8d/fd/06/8dfd06c0d6d7e108ff6ecf939c0ee1b5.jpg',
   },
+  {
+    id: 11,
+    name: 'Travel',
+    image:
+      'https://i.pinimg.com/474x/c2/ae/fb/c2aefbed78698218736102f618f7dd7d.jpg',
+  },
+  {
+    id: 12,
+    name: 'Weddings',
+    image:
+      'https://i.pinimg.com/474x/a0/e3/8c/a0e38ce2caa7b7d311a02068bc8b9752.jpg',
+  },
+  {
+    id: 12,
+    name: 'Women`s Fashion',
+    image:
+      'https://i.pinimg.com/236x/bd/cd/8f/bdcd8fe1577ff288973074735f36bb05.jpg',
+  },
 ];
