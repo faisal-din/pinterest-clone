@@ -15,7 +15,7 @@ const Navbar = () => {
 
           <NavLink
             to='/explore'
-            className='py-2 px-3 rounded-full bg-black text-white'
+            className='py-3 px-3 rounded-full bg-black text-white'
           >
             <p>Explore</p>
           </NavLink>
@@ -32,13 +32,13 @@ const Navbar = () => {
           <ul className='flex items-center gap-3'>
             <NavLink
               to='/login'
-              className='py-2 px-4 rounded-full bg-red-600 text-white hover:bg-red-700'
+              className='py-3 px-4 rounded-full bg-red-600 text-white hover:bg-red-700'
             >
               <p>Log in</p>
             </NavLink>
             <NavLink
               to='/signup'
-              className='py-2 px-4 rounded-full bg-gray-200 hover:bg-gray-300 '
+              className='py-3 px-4 rounded-full bg-gray-200 hover:bg-gray-300 '
             >
               <p>Sign up</p>
             </NavLink>
