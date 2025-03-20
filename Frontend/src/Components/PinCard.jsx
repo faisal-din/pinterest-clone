@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CategoryCard = ({ image, name }) => {
+const PinCard = ({ image, name }) => {
   return (
     <div className='relative w-full sm:w-[230px] h-[120px] rounded-2xl overflow-hidden cursor-pointer group'>
       {/* Background Image */}
@@ -17,4 +17,4 @@ const CategoryCard = ({ image, name }) => {
   );
 };
 
-export default CategoryCard;
+export default PinCard;

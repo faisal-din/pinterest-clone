@@ -4,7 +4,8 @@ import { Link, NavLink } from 'react-router-dom';
 const Navbar = () => {
   return (
     <nav>
-      <div className=' flex justify-between items-center gap-3 py-4 px-6 shadow-md'>
+      <div className=' flex justify-between items-center gap-3 py-4  sm:px-6 shadow-md'>
+        {/* Logo and explore  */}
         <div className=' flex items-center  gap-4'>
           <Link to='/'>
             <div className='flex items-center '>
@@ -20,7 +21,9 @@ const Navbar = () => {
             <p>Explore</p>
           </NavLink>
         </div>
-        <div className='flex-1 flex items-center gap-2 rounded-full bg-gray-200 px-3 py-2'>
+
+        {/* Search bar */}
+        <div className='hidden sm:flex flex-1  items-center gap-2 rounded-full bg-gray-200 px-3 py-2'>
           <i className='fa-solid fa-search text-gray-400'></i>
           <input
             type='text'
@@ -28,6 +31,8 @@ const Navbar = () => {
             className='w-full bg-transparent border-none outline-none'
           />
         </div>
+
+        {/* Log in and Sign up */}
         <div className=' flex items-center justify-end gap-3'>
           <ul className='flex items-center gap-3'>
             <NavLink
