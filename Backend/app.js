@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import 'dotenv/config';
 import connectDB from './config/mongodb.js';
-import userRouter from './routes/userRouter.js';
+import authRouter from './routes/authRouter.js';
 import cookieParser from 'cookie-parser';
 
 // App Config
@@ -13,10 +13,15 @@ connectDB();
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(
+  cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+  })
+);
 
 // API Endpoints
-app.use('/api/user', userRouter);
+app.use('/api/auth', authRouter);
 
 app.get('/', (req, res) => {
   res.send('API is running');

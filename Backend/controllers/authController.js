@@ -65,8 +65,8 @@ export const registerUser = async (req, res, next) => {
       success: true,
       message: 'User created successfully',
       data: {
-        user: user,
-        token,
+        name: user.name,
+        email: user.email,
       },
     });
   } catch (error) {
@@ -80,7 +80,7 @@ export const registerUser = async (req, res, next) => {
 };
 
 // Route for user login  --> (POST) /api/user/login
-export const loginUser = async (req, res) => {
+export const loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
@@ -130,8 +130,8 @@ export const loginUser = async (req, res) => {
       success: true,
       message: 'User logged in successfully',
       data: {
-        user,
-        token,
+        name: user.name,
+        email: user.email,
       },
     });
   } catch (error) {

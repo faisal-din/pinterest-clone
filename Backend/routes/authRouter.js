@@ -4,7 +4,7 @@ import {
   loginUser,
   logoutUser,
   registerUser,
-} from '../controllers/userController.js';
+} from '../controllers/authController.js';
 
 // /api/user/register
 userRouter.post('/register', registerUser);

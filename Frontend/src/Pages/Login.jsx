@@ -1,6 +1,16 @@
-import React from 'react';
+import { useState } from 'react';
 
 const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const onSubmitHandler = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+  };
+
   return (
     <div className='flex items-center justify-center min-h-screen bg-amber-100 overflow-auto py-8'>
       <div className='relative w-full max-w-md flex flex-col gap-4 py-8 px-10 bg-white rounded-2xl shadow-md mx-4'>
@@ -13,19 +23,37 @@ const Login = () => {
         </div>
 
         {/* Login Form */}
-        <form className='flex flex-col gap-4 mt-6'>
+        <form onSubmit={onSubmitHandler} className='flex flex-col gap-4 mt-6'>
           <input
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
             type='email'
             placeholder='Email'
+            required
             className='py-3 px-4 rounded-lg bg-gray-100 text-base focus:outline-none ring-2 ring-gray-300 focus:ring-blue-300'
           />
-          <input
-            type='password'
-            placeholder='Password'
-            className='py-3 px-4 rounded-lg bg-gray-100 text-base focus:outline-none ring-2 ring-gray-300 focus:ring-blue-300'
-          />
-          <button className='py-3 rounded-full bg-red-600 text-white text-lg font-semibold hover:bg-red-700 transition-all cursor-pointer'>
-            Log in
+          <div className='relative'>
+            <input
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+              type={showPassword ? 'text' : 'password'}
+              placeholder='Password'
+              required
+              className='py-3 px-4 w-full rounded-lg bg-gray-100 text-base focus:outline-none ring-2 ring-gray-300 focus:ring-blue-300'
+            />
+            <i
+              className={`fa ${
+                showPassword ? 'fa-eye-slash' : 'fa-eye'
+              } absolute right-4 top-4 cursor-pointer text-gray-600`}
+              onClick={() => setShowPassword(!showPassword)}
+            ></i>
+          </div>
+          <button
+            type='submit'
+            className='py-3 rounded-full bg-red-600 text-white text-lg font-semibold hover:bg-red-700 transition-all cursor-pointer'
+            disabled={loading}
+          >
+            {loading ? 'Logging in...' : 'Log in'}
           </button>
         </form>
 

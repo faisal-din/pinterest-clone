@@ -6,10 +6,14 @@ import Home from './Pages/Home';
 import Login from './Pages/Login';
 import SignUp from './Pages/SignUp';
 import Explore from './Pages/Explore';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
     <div>
+      <ToastContainer />
+
       <Navbar />
 
       <Routes>
