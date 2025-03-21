@@ -3,7 +3,7 @@ import validator from 'validator';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-// Route for user registration/sign-up  --> (POST) /api/user/register
+// Route for user registration/sign-up  --> (POST) /api/auth/register
 export const registerUser = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
@@ -64,10 +64,7 @@ export const registerUser = async (req, res, next) => {
     res.status(201).json({
       success: true,
       message: 'User created successfully',
-      data: {
-        name: user.name,
-        email: user.email,
-      },
+      user,
     });
   } catch (error) {
     console.log(error);
@@ -79,7 +76,7 @@ export const registerUser = async (req, res, next) => {
   }
 };
 
-// Route for user login  --> (POST) /api/user/login
+// Route for user login  --> (POST) /api/auth/login
 export const loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -127,12 +124,9 @@ export const loginUser = async (req, res, next) => {
 
     // Send the response
     res.status(200).json({
+      user,
       success: true,
       message: 'User logged in successfully',
-      data: {
-        name: user.name,
-        email: user.email,
-      },
     });
   } catch (error) {
     console.log(error);
@@ -141,7 +135,7 @@ export const loginUser = async (req, res, next) => {
   }
 };
 
-// Route for user logout  --> (GET) /api/user/logout
+// Route for user logout  --> (POST) /api/auth/logout
 export const logoutUser = async (req, res, next) => {
   try {
     res.clearCookie('token', {
@@ -155,5 +149,31 @@ export const logoutUser = async (req, res, next) => {
     console.log(error);
     res.status(500).json({ message: error.message });
     next(error);
+  }
+};
+
+// Route to get current user profile --> (GET) /api/auth/user
+export const getCurrentUser = async (req, res, next) => {
+  try {
+    // The user should be available from the auth middleware
+    const user = await UserModel.findById(req.user.id).select('-password');
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };

@@ -1,14 +1,17 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { userContext } from '../Context/userContext';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  const { userLogin, loading, setLoading } = useContext(userContext);
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     setLoading(true);
+    userLogin(email, password);
   };
 
   return (
