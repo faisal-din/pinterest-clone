@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { userContext } from '../Context/userContext';
+import { LoadingAnimation } from '../Components/Loading';
 
 const SignUp = () => {
   const [name, setName] = useState('');
@@ -67,7 +68,7 @@ const SignUp = () => {
             className='py-3 rounded-full bg-red-600 text-white text-lg font-semibold hover:bg-red-700 transition-all cursor-pointer'
             disabled={btnloading}
           >
-            {btnloading ? ' Signing up...' : 'Sign up'}
+            {btnloading ? <LoadingAnimation /> : 'Sign up'}
           </button>
         </form>
 

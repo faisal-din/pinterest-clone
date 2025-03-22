@@ -7,6 +7,7 @@ export const userContext = createContext();
 
 const UserContextProvider = ({ children }) => {
   const [user, setUser] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [btnloading, setBTnLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -94,7 +95,7 @@ const UserContextProvider = ({ children }) => {
 
   const fetchUser = async () => {
     try {
-      setBTnLoading(true);
+      setLoading(true);
       const response = await api.get('/api/auth/user');
 
       if (response.data.success) {
@@ -107,7 +108,7 @@ const UserContextProvider = ({ children }) => {
       console.log('Fetch User error: ', error);
       toast.error(error.message);
     } finally {
-      setBTnLoading(false);
+      setLoading(false);
     }
   };
 
@@ -119,6 +120,8 @@ const UserContextProvider = ({ children }) => {
   const value = {
     user,
     setUser,
+    loading,
+    setLoading,
     btnloading,
     setBTnLoading,
     userRegister,
@@ -126,6 +129,7 @@ const UserContextProvider = ({ children }) => {
     userLogout,
     fetchUser,
     isAuthenticated,
+    setIsAuthenticated,
   };
 
   return <userContext.Provider value={value}>{children}</userContext.Provider>;

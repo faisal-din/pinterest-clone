@@ -2,8 +2,8 @@ import { useContext } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { userContext } from '../Context/userContext';
 
-const Navbar = () => {
-  const { user, setUser } = useContext(userContext);
+const Navbar = ({ user }) => {
+  const { isAuthenticated, setIsAuthenticated } = useContext(userContext);
 
   return (
     <nav>
@@ -17,7 +17,7 @@ const Navbar = () => {
             </div>
           </Link>
 
-          {!user && (
+          {!isAuthenticated && (
             <NavLink
               to='/explore'
               className='py-3 px-3 rounded-full bg-black text-white'
@@ -40,13 +40,16 @@ const Navbar = () => {
         {/* Log in and Sign up */}
         <div className=' flex items-center justify-end gap-3'>
           <ul className='flex items-center gap-3'>
-            {user ? (
+            {isAuthenticated ? (
               <div className='flex items-center gap-3'>
-                <NavLink to='/profile'>
-                  <p className='text-lg text-gray-800 '>{user.name}</p>
+                <NavLink
+                  to='/profile'
+                  className='w-9 h-9 rounded-full bg-gray-300 flex items-center justify-center text-xl text-gray-700'
+                >
+                  {user.name.slice(0, 1)}
                 </NavLink>
                 <button
-                  onClick={() => setUser(null)}
+                  onClick={() => setIsAuthenticated(false)}
                   className='py-3 px-4 rounded-full bg-red-600 text-white hover:bg-red-700 cursor-pointer'
                 >
                   <p>Log out</p>

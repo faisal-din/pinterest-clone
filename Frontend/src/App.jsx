@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Footer from './Components/Footer';
 import Navbar from './Components/Navbar';
@@ -12,26 +12,45 @@ import 'react-toastify/dist/ReactToastify.css';
 import LandingPage from './Pages/LandingPage';
 import { useContext } from 'react';
 import { userContext } from './Context/userContext';
+import { Loading } from './Components/Loading';
 
 function App() {
-  const { user } = useContext(userContext);
+  const { user, isAuthenticated, loading } = useContext(userContext);
 
   return (
-    <div>
-      <ToastContainer />
-
-      <Navbar />
-
-      <Routes>
-        <Route path='/' element={user ? <Home /> : <LandingPage />} />
-        <Route path='/explore' element={!user && <Explore />} />
-        <Route path='/profile' element={user && <Profile />} />
-        <Route path='/login' element={!user && <Login />} />
-        <Route path='/signup' element={!user && <SignUp />} />
-      </Routes>
-
-      <Footer />
-    </div>
+    <>
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          <ToastContainer />
+          <Navbar user={user} />
+          <Routes>
+            <Route
+              path='/'
+              element={isAuthenticated ? <Home /> : <LandingPage />}
+            />
+            <Route
+              path='/explore'
+              element={!isAuthenticated ? <Explore /> : <Navigate to='/' />}
+            />
+            <Route
+              path='/login'
+              element={isAuthenticated ? <Navigate to='/' /> : <Login />}
+            />
+            <Route
+              path='/signup'
+              element={isAuthenticated ? <Navigate to='/' /> : <SignUp />}
+            />
+            <Route
+              path='/profile'
+              element={isAuthenticated ? <Profile /> : <Navigate to='/login' />}
+            />
+          </Routes>
+          <Footer />
+        </>
+      )}
+    </>
   );
 }
 

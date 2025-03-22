@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react';
 import { userContext } from '../Context/userContext';
+import { Loading, LoadingAnimation } from '../Components/Loading';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -56,7 +57,7 @@ const Login = () => {
             className='py-3 rounded-full bg-red-600 text-white text-lg font-semibold hover:bg-red-700 transition-all cursor-pointer'
             disabled={btnloading}
           >
-            {btnloading ? 'Logging in...' : 'Log in'}
+            {btnloading ? <LoadingAnimation /> : 'Log in'}
           </button>
         </form>
 
