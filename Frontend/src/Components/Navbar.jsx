@@ -1,7 +1,10 @@
-import React from 'react';
+import { useContext } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { userContext } from '../Context/userContext';
 
 const Navbar = () => {
+  const { user, setUser } = useContext(userContext);
+
   return (
     <nav>
       <div className=' flex justify-between items-center gap-3 py-4  sm:px-6 shadow-md'>
@@ -14,12 +17,14 @@ const Navbar = () => {
             </div>
           </Link>
 
-          <NavLink
-            to='/explore'
-            className='py-3 px-3 rounded-full bg-black text-white'
-          >
-            <p>Explore</p>
-          </NavLink>
+          {!user && (
+            <NavLink
+              to='/explore'
+              className='py-3 px-3 rounded-full bg-black text-white'
+            >
+              <p>Explore</p>
+            </NavLink>
+          )}
         </div>
 
         {/* Search bar */}
@@ -35,18 +40,34 @@ const Navbar = () => {
         {/* Log in and Sign up */}
         <div className=' flex items-center justify-end gap-3'>
           <ul className='flex items-center gap-3'>
-            <NavLink
-              to='/login'
-              className='py-3 px-4 rounded-full bg-red-600 text-white hover:bg-red-700'
-            >
-              <p>Log in</p>
-            </NavLink>
-            <NavLink
-              to='/signup'
-              className='py-3 px-4 rounded-full bg-gray-200 hover:bg-gray-300 '
-            >
-              <p>Sign up</p>
-            </NavLink>
+            {user ? (
+              <div className='flex items-center gap-3'>
+                <NavLink to='/profile'>
+                  <p className='text-lg text-gray-800 '>{user.name}</p>
+                </NavLink>
+                <button
+                  onClick={() => setUser(null)}
+                  className='py-3 px-4 rounded-full bg-red-600 text-white hover:bg-red-700 cursor-pointer'
+                >
+                  <p>Log out</p>
+                </button>
+              </div>
+            ) : (
+              <>
+                <NavLink
+                  to='/login'
+                  className='py-3 px-4 rounded-full bg-red-600 text-white hover:bg-red-700'
+                >
+                  <p>Log in</p>
+                </NavLink>
+                <NavLink
+                  to='/signup'
+                  className='py-3 px-4 rounded-full bg-gray-200 hover:bg-gray-300 '
+                >
+                  <p>Sign up</p>
+                </NavLink>
+              </>
+            )}
           </ul>
         </div>
       </div>

@@ -32,8 +32,8 @@ const UserContextProvider = ({ children }) => {
 
       if (response.data.success) {
         toast.success(response.data.message);
-        // Automatically fetch user after registration
-        await fetchUser();
+        setUser(response.data.user);
+        setIsAuthenticated(true);
         navigate('/');
       }
     } catch (error) {

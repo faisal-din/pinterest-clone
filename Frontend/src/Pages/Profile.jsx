@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
-import { userContext } from '../context/UserContext';
+import { userContext } from '../Context/userContext';
 
 const Profile = () => {
   const { user, isAuthenticated, loading } = useContext(userContext);
