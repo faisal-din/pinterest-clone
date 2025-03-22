@@ -6,11 +6,11 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  const { userLogin, loading, setLoading } = useContext(userContext);
+  const { userLogin, btnloading, setBTnLoading } = useContext(userContext);
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    setBTnLoading(true);
     userLogin(email, password);
   };
 
@@ -54,9 +54,9 @@ const Login = () => {
           <button
             type='submit'
             className='py-3 rounded-full bg-red-600 text-white text-lg font-semibold hover:bg-red-700 transition-all cursor-pointer'
-            disabled={loading}
+            disabled={btnloading}
           >
-            {loading ? 'Logging in...' : 'Log in'}
+            {btnloading ? 'Logging in...' : 'Log in'}
           </button>
         </form>
 

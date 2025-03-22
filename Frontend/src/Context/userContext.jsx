@@ -7,7 +7,7 @@ export const userContext = createContext();
 
 const UserContextProvider = ({ children }) => {
   const [user, setUser] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [btnloading, setBTnLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -20,7 +20,7 @@ const UserContextProvider = ({ children }) => {
   });
 
   const userRegister = async (name, email, password) => {
-    setLoading(true);
+    setBTnLoading(true);
     try {
       const response = await api.post('/api/auth/register', {
         name,
@@ -37,17 +37,18 @@ const UserContextProvider = ({ children }) => {
         navigate('/');
       }
     } catch (error) {
+      console.log('Registration error:', error);
       const errorMessage =
         error.response?.data?.message || 'Registration failed';
       toast.error(errorMessage);
     } finally {
-      setLoading(false);
+      setBTnLoading(false);
     }
   };
 
   const userLogin = async (email, password) => {
     try {
-      setLoading(true);
+      setBTnLoading(true);
       const response = await api.post('/api/auth/login', {
         email,
         password,
@@ -63,17 +64,17 @@ const UserContextProvider = ({ children }) => {
         navigate('/');
       }
     } catch (error) {
-      console.error('Login error:', error);
+      console.error('Login error:', error.response);
       const errorMessage = error.response?.data?.message || 'Login failed';
       toast.error(errorMessage);
     } finally {
-      setLoading(false);
+      setBTnLoading(false);
     }
   };
 
   const userLogout = async () => {
     try {
-      setLoading(true);
+      setBTnLoading(true);
       const response = await api.post('/api/auth/logout');
 
       console.log('logout response:', response.data);
@@ -87,13 +88,13 @@ const UserContextProvider = ({ children }) => {
       console.error('Logout error:', error);
       toast.error(error.response.data.message);
     } finally {
-      setLoading(false);
+      setBTnLoading(false);
     }
   };
 
   const fetchUser = async () => {
     try {
-      setLoading(true);
+      setBTnLoading(true);
       const response = await api.get('/api/auth/user');
 
       if (response.data.success) {
@@ -106,7 +107,7 @@ const UserContextProvider = ({ children }) => {
       console.log('Fetch User error: ', error);
       toast.error(error.message);
     } finally {
-      setLoading(false);
+      setBTnLoading(false);
     }
   };
 
@@ -118,8 +119,8 @@ const UserContextProvider = ({ children }) => {
   const value = {
     user,
     setUser,
-    loading,
-    setLoading,
+    btnloading,
+    setBTnLoading,
     userRegister,
     userLogin,
     userLogout,
