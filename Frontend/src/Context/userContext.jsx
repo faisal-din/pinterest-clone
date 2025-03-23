@@ -3,7 +3,7 @@ import { createContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-export const userContext = createContext();
+export const UserContext = createContext();
 
 const UserContextProvider = ({ children }) => {
   const [user, setUser] = useState([]);
@@ -12,6 +12,7 @@ const UserContextProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const unsplashKey = import.meta.env.VITE_UNSPLASH_ACCESS_KEY;
   const navigate = useNavigate();
 
   // Create an axios instance with default configs
@@ -130,9 +131,11 @@ const UserContextProvider = ({ children }) => {
     fetchUser,
     isAuthenticated,
     setIsAuthenticated,
+    unsplashKey,
+    backendUrl,
   };
 
-  return <userContext.Provider value={value}>{children}</userContext.Provider>;
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
 
 export default UserContextProvider;

@@ -1,9 +1,9 @@
 import { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
-import { userContext } from '../Context/userContext';
+import { UserContext } from '../Context/UserContext';
 
 const Profile = () => {
-  const { user, isAuthenticated, loading } = useContext(userContext);
+  const { user, isAuthenticated, loading } = useContext(UserContext);
 
   // Redirect if not authenticated
   if (!loading && !isAuthenticated) {

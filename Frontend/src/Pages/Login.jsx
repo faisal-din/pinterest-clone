@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { userContext } from '../Context/userContext';
+import { UserContext } from '../Context/UserContext';
 import { Loading, LoadingAnimation } from '../Components/Loading';
 
 const Login = () => {
@@ -7,7 +7,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  const { userLogin, btnloading, setBTnLoading } = useContext(userContext);
+  const { userLogin, btnloading, setBTnLoading } = useContext(UserContext);
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();

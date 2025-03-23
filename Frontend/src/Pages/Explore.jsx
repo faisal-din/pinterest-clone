@@ -1,6 +1,6 @@
 import React from 'react';
 import CategoryCard from '../Components/CategoryCard';
-import { categories } from '../assets/constants';
+import { categories, pinData } from '../assets/constants';
 import PinCard from '../Components/PinCard';
 
 const Explore = () => {
@@ -29,12 +29,13 @@ const Explore = () => {
       {/* Popular on Pinterest */}
       <div className='mt-16'>
         <p className='text-3xl font-semibold'>What's new on Pinterest</p>
-        <div className='grid md:grid-cols-2 lg:grid-cols-5 gap-4 mt-4'>
-          {categories.slice(0, 5).map((category) => (
+        <div className=' columns-[200px]  gap-4 mt-4'>
+          {pinData.map((pin) => (
             <PinCard
-              key={category.id}
-              image={category.image}
-              name={category.name}
+              key={pin.id}
+              id={pin.id}
+              image={pin.image}
+              title={pin.title}
             />
           ))}
         </div>

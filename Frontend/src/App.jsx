@@ -11,11 +11,12 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LandingPage from './Pages/LandingPage';
 import { useContext } from 'react';
-import { userContext } from './Context/userContext';
+import { UserContext } from './Context/UserContext';
 import { Loading } from './Components/Loading';
+import PinPage from './Pages/PinPage';
 
 function App() {
-  const { user, isAuthenticated, loading } = useContext(userContext);
+  const { user, isAuthenticated, loading } = useContext(UserContext);
 
   return (
     <>
@@ -34,6 +35,7 @@ function App() {
               path='/explore'
               element={!isAuthenticated ? <Explore /> : <Navigate to='/' />}
             />
+            <Route path='/pin/:pinId' element={<PinPage />} />
             <Route
               path='/login'
               element={isAuthenticated ? <Navigate to='/' /> : <Login />}

@@ -1,9 +1,9 @@
 import { useContext } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { userContext } from '../Context/userContext';
+import { UserContext } from '../Context/UserContext';
 
 const Navbar = ({ user }) => {
-  const { isAuthenticated, setIsAuthenticated } = useContext(userContext);
+  const { isAuthenticated, setIsAuthenticated } = useContext(UserContext);
 
   return (
     <nav>
@@ -50,7 +50,7 @@ const Navbar = ({ user }) => {
                 </NavLink>
                 <button
                   onClick={() => setIsAuthenticated(false)}
-                  className='py-3 px-4 rounded-full bg-red-600 text-white hover:bg-red-700 cursor-pointer'
+                  className='py-2 px-4 rounded-full bg-red-600 text-white hover:bg-red-700 cursor-pointer'
                 >
                   <p>Log out</p>
                 </button>
@@ -59,13 +59,13 @@ const Navbar = ({ user }) => {
               <>
                 <NavLink
                   to='/login'
-                  className='py-3 px-4 rounded-full bg-red-600 text-white hover:bg-red-700'
+                  className='py-2 px-4 rounded-full bg-red-600 text-white hover:bg-red-700'
                 >
                   <p>Log in</p>
                 </NavLink>
                 <NavLink
                   to='/signup'
-                  className='py-3 px-4 rounded-full bg-gray-200 hover:bg-gray-300 '
+                  className='py-2 px-4 rounded-full bg-gray-200 hover:bg-gray-300 '
                 >
                   <p>Sign up</p>
                 </NavLink>
