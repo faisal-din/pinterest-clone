@@ -1,18 +1,31 @@
-import PinModel from '../models/pinModel';
+import PinModel from '../models/pinModel.js';
 
 // Route for creating a new pin  --> (POST) /api/pins
 export const createPin = async (req, res, next) => {
   try {
+    const { title, description } = req.body;
+    if (!title || !description) {
+      return res.status(400).json({
+        success: false,
+        message: 'Title and description are required',
+      });
+    }
+
     const newPin = new PinModel(req.body);
+    req.owner = req.user._id;
     const data = await newPin.save();
 
     res.status(201).json({
       success: true,
+      message: 'Pin created',
       data,
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
     next(error);
   }
 };
@@ -42,10 +55,13 @@ export const getAllPins = async (req, res, next) => {
   }
 };
 
-// Route for deleting a pin --> (DELETE) /api/pins/:id
-export const deletePin = async (req, res, next) => {
+// Route for getting a single pin --> (GET) /api/pins/:id
+export const getSinglePin = async (req, res, next) => {
   try {
-    const pin = await PinModel.findById(req.params.id);
+    const pin = await PinModel.findById(req.params.id)
+      .populate('comments')
+      .populate('owner', '-password');
+    // const pin = await PinModel.findById(req.params.id).populate('comments').populate('owner');
 
     if (!pin) {
       return res.status(404).json({
@@ -54,7 +70,30 @@ export const deletePin = async (req, res, next) => {
       });
     }
 
-    await pin.remove();
+    res.status(200).json({
+      success: true,
+      pin,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// Route for deleting a pin --> (DELETE) /api/pins/:id
+export const deletePin = async (req, res, next) => {
+  try {
+    const pin = await PinModel.findByIdAndDelete(req.params.id);
+
+    if (!pin) {
+      return res.status(404).json({
+        success: false,
+        message: 'Pin not found',
+      });
+    }
 
     res.status(200).json({
       success: true,

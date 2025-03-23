@@ -5,11 +5,7 @@ const pinSchema = mongoose.Schema(
     title: { type: String, required: true },
     description: { type: String, required: true },
 
-    image: {
-      filename: String,
-      url: String,
-      required: true,
-    },
+    image: { type: String, required: true },
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
@@ -21,12 +17,10 @@ const pinSchema = mongoose.Schema(
       },
     ],
     tags: [{ type: String }],
-    likes: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-      },
-    ],
+    likes: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
   },
   {
     timestamps: true,

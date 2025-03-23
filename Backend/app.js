@@ -4,6 +4,7 @@ import 'dotenv/config';
 import connectDB from './config/mongodb.js';
 import authRouter from './routes/authRouter.js';
 import cookieParser from 'cookie-parser';
+import pinRouter from './routes/pinRouter.js';
 
 // App Config
 const app = express();
@@ -22,6 +23,7 @@ app.use(
 
 // API Endpoints
 app.use('/api/auth', authRouter);
+app.use('/api/pins', pinRouter);
 
 app.get('/', (req, res) => {
   res.send('API is running');
