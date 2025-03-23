@@ -1,31 +1,47 @@
 import PinModel from '../models/pinModel.js';
+import { upload, uploadToCloudinary } from '../config/cloudinary.js';
 
-// Route for creating a new pin  --> (POST) /api/pins
 export const createPin = async (req, res, next) => {
   try {
-    const { title, description } = req.body;
-    if (!title || !description) {
-      return res.status(400).json({
-        success: false,
-        message: 'Title and description are required',
-      });
+    // Check if an image was uploaded
+    if (!req.file) {
+      return res.status(400).json({ message: 'Image is required' });
     }
 
-    const newPin = new PinModel(req.body);
-    req.owner = req.user._id;
-    const data = await newPin.save();
+    // Upload image to Cloudinary
+    const imageUrl = await uploadToCloudinary(req.file.path);
+
+    // Extract pin data from request body
+    const { title, description, tags } = req.body;
+
+    // Process tags if they were sent as a comma-separated string
+    const formattedTags = tags ? tags.split(',').map((tag) => tag.trim()) : [];
+
+    // Create new pin with Cloudinary image URL
+    const newPin = new PinModel({
+      title,
+      description,
+      image: imageUrl, // Store the Cloudinary URL, not local file path
+      owner: req.user._id, // Assuming authentication middleware provides user
+      tags: formattedTags,
+    });
+
+    // Save the pin to database
+    const savedPin = await newPin.save();
 
     res.status(201).json({
       success: true,
-      message: 'Pin created',
-      data,
+      message: 'Pin created successfully',
+      savedPin,
     });
   } catch (error) {
-    console.log(error);
+    console.error('Error creating pin:', error);
+
     res.status(500).json({
       success: false,
       message: error.message,
     });
+
     next(error);
   }
 };
@@ -61,7 +77,15 @@ export const getSinglePin = async (req, res, next) => {
     const pin = await PinModel.findById(req.params.id)
       .populate('comments')
       .populate('owner', '-password');
-    // const pin = await PinModel.findById(req.params.id).populate('comments').populate('owner');
+
+    // const pin = await PinModel.findById(req.params.id)
+    //   .populate({
+    //     path: 'comments',
+    //     populate: {
+    //       path: 'owner',
+    //     },
+    //   })
+    //   .populate('owner');
 
     if (!pin) {
       return res.status(404).json({
