@@ -124,9 +124,9 @@ export const loginUser = async (req, res, next) => {
 
     // Send the response
     res.status(200).json({
-      user,
       success: true,
       message: 'User logged in successfully',
+      user,
     });
   } catch (error) {
     console.log(error);
@@ -155,18 +155,18 @@ export const logoutUser = async (req, res, next) => {
 // Route for user profile
 export const getAllUsers = async (req, res, next) => {
   try {
-    const user = await UserModel.find();
+    const users = await UserModel.find();
 
-    if (!user) {
+    if (!users) {
       return res.status(404).json({
         success: false,
-        message: 'User not found',
+        message: 'Users not found',
       });
     }
 
     res.status(200).json({
       success: true,
-      user,
+      users,
     });
   } catch (error) {
     console.log(error);

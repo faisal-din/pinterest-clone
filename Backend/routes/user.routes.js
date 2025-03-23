@@ -1,7 +1,7 @@
 import express from 'express';
 const userRouter = express.Router();
 
-import isAuthenticated from '../middlewares/authMiddleware.js';
+import isAuthenticated from '../middlewares/auth.middleware.js';
 
 import {
   getAllUsers,
@@ -9,7 +9,7 @@ import {
   loginUser,
   logoutUser,
   registerUser,
-} from '../controllers/authController.js';
+} from '../controllers/user.controller.js';
 
 // /api/auth/register
 userRouter.post('/register', registerUser);

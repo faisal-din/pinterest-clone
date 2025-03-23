@@ -1,15 +1,14 @@
 import express from 'express';
 const pinRouter = express.Router();
-import isAuthenticated from '../middlewares/authMiddleware.js';
-import { upload } from '../config/cloudinary.js';
+import isAuthenticated from '../middlewares/auth.middleware.js';
+import { upload } from '../middlewares/multer.middleware.js';
 import {
-  commentOnPin,
   createPin,
   deletePin,
   getAllPins,
   getSinglePin,
   updatePin,
-} from '../controllers/pinController.js';
+} from '../controllers/pin.controller.js';
 
 pinRouter.get('/', isAuthenticated, getAllPins);
 

@@ -2,9 +2,9 @@ import express from 'express';
 import cors from 'cors';
 import 'dotenv/config';
 import connectDB from './config/mongodb.js';
-import authRouter from './routes/authRouter.js';
 import cookieParser from 'cookie-parser';
-import pinRouter from './routes/pinRouter.js';
+import authRouter from './routes/user.routes.js';
+import pinRouter from './routes/pin.routes.js';
 
 // App Config
 const app = express();
@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: 'http://localhost:5173',
+    origin: process.env.ALLOWED_ORIGINS,
     credentials: true,
   })
 );

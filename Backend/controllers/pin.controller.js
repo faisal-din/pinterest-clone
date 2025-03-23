@@ -1,6 +1,8 @@
 import PinModel from '../models/pinModel.js';
-import { upload, uploadToCloudinary } from '../config/cloudinary.js';
+import { uploadToCloudinary } from '../config/cloudinary.js';
+import { upload } from '../middlewares/multer.middleware.js';
 
+// Rooute for create pin  --> (POST) /api/pins/create
 export const createPin = async (req, res, next) => {
   try {
     // Check if an image was uploaded
@@ -36,12 +38,10 @@ export const createPin = async (req, res, next) => {
     });
   } catch (error) {
     console.error('Error creating pin:', error);
-
     res.status(500).json({
       success: false,
       message: error.message,
     });
-
     next(error);
   }
 };
@@ -63,7 +63,7 @@ export const getAllPins = async (req, res, next) => {
       pins,
     });
   } catch (error) {
-    console.log(error);
+    console.log('Error fetching all pins:', error);
     res.status(500).json({
       success: false,
       message: error.message,
@@ -99,7 +99,7 @@ export const getSinglePin = async (req, res, next) => {
       pin,
     });
   } catch (error) {
-    console.log(error);
+    console.log('Error fetching pins by given id', error);
     res.status(500).json({
       success: false,
       message: error.message,
@@ -112,19 +112,12 @@ export const deletePin = async (req, res, next) => {
   try {
     const pin = await PinModel.findByIdAndDelete(req.params.id);
 
-    if (!pin) {
-      return res.status(404).json({
-        success: false,
-        message: 'Pin not found',
-      });
-    }
-
     res.status(200).json({
       success: true,
       message: 'Pin deleted',
     });
   } catch (error) {
-    console.log(error);
+    console.log('Error deleting pin...', error);
     res.status(500).json({
       success: false,
       message: error.message,
@@ -154,7 +147,7 @@ export const updatePin = async (req, res, next) => {
       pin,
     });
   } catch (error) {
-    console.log(error);
+    console.log('Error updating pin..', error);
     res.status(500).json({
       success: false,
       message: error.message,
