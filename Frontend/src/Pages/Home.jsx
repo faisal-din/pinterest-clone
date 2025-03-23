@@ -12,7 +12,7 @@ const Home = () => {
     return <Loading />;
   }
   return (
-    <div className=' columns-[200px] gap-4 mt-4'>
+    <div className='mx-3  columns-[200px] gap-4 mt-4'>
       {pinData.map((pin) => (
         <PinCard key={pin.id} id={pin.id} image={pin.image} name={pin.name} />
       ))}

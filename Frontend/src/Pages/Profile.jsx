@@ -1,9 +1,19 @@
-import { useContext } from 'react';
+import { useContext, useMemo } from 'react';
 import { Navigate } from 'react-router-dom';
 import { UserContext } from '../Context/UserContext';
+import { Loading } from '../Components/Loading';
+import { pinData } from '../assets/constants';
+import PinCard from '../Components/PinCard';
+import ProfileHeader from '../Components/ProfileHeader';
 
 const Profile = () => {
   const { user, isAuthenticated, loading } = useContext(UserContext);
+
+  // Memoize pins to prevent unnecessary renders
+  const userPins = useMemo(
+    () => pinData.slice(0, 14),
+    [] // Empty dependency array since pinData is imported constant
+  );
 
   // Redirect if not authenticated
   if (!loading && !isAuthenticated) {
@@ -11,44 +21,25 @@ const Profile = () => {
   }
 
   if (loading) {
-    return (
-      <div className='flex justify-center items-center min-h-screen'>
-        Loading...
-      </div>
-    );
+    return <Loading />;
   }
 
   return (
-    <div className='container mx-auto px-4 py-8'>
-      <div className='max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden'>
-        <div className='px-6 py-4'>
-          <div className='font-bold text-xl mb-2'>User Profile</div>
-          <div className='bg-gray-100 rounded-lg p-4 mb-4'>
-            <div className='mb-2'>
-              <span className='font-semibold text-gray-700'>Name:</span>{' '}
-              {user?.name}
-            </div>
-            <div className='mb-2'>
-              <span className='font-semibold text-gray-700'>Email:</span>{' '}
-              {user?.email}
-            </div>
-            <div className='mb-2'>
-              <span className='font-semibold text-gray-700'>
-                Account created:
-              </span>{' '}
-              {user?.createdAt
-                ? new Date(user.createdAt).toLocaleDateString()
-                : 'N/A'}
-            </div>
-          </div>
-          <div className='mt-4'>
-            <button
-              className='bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-              type='button'
-            >
-              Edit Profile
-            </button>
-          </div>
+    <div className='flex flex-col min-h-screen'>
+      <ProfileHeader user={user} />
+
+      {/* pin details */}
+      <div className='mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl'>
+        <div className='columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-4 mt-4'>
+          {userPins.map((pin) => (
+            <PinCard
+              key={pin.id}
+              id={pin.id}
+              image={pin.image}
+              title={pin.title}
+              alt={pin.title}
+            />
+          ))}
         </div>
       </div>
     </div>
