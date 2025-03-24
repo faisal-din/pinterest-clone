@@ -16,8 +16,13 @@ const pinSchema = mongoose.Schema(
         ref: 'Comment',
       },
     ],
+
     tags: [{ type: String }],
     likes: {
+      type: Number,
+      default: 0,
+    },
+    saves: {
       type: Number,
       default: 0,
     },

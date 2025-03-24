@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const commentSchema = mongoose.Schema(
+const commentSchema = new mongoose.Schema(
   {
     comment: { type: String, required: true },
     owner: {
@@ -11,7 +11,7 @@ const commentSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Pin',
     },
-    createedAt: {
+    createdAt: {
       type: Date,
       default: Date.now,
     },

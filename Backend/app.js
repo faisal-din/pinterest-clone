@@ -5,6 +5,7 @@ import connectDB from './config/mongodb.js';
 import cookieParser from 'cookie-parser';
 import authRouter from './routes/user.routes.js';
 import pinRouter from './routes/pin.routes.js';
+import commentRouter from './routes/comment.routes.js';
 
 // App Config
 const app = express();
@@ -24,6 +25,7 @@ app.use(
 // API Endpoints
 app.use('/api/auth', authRouter);
 app.use('/api/pins', pinRouter);
+app.use('/api/pins/:pinId/comments', commentRouter);
 
 app.get('/', (req, res) => {
   res.send('API is running');
