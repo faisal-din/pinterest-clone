@@ -1,5 +1,5 @@
 import express from 'express';
-const commentRouter = express.Router();
+const commentRouter = express.Router({ mergeParams: true });
 
 import isAuthenticated from '../middlewares/auth.middleware.js';
 

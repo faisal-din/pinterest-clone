@@ -4,7 +4,7 @@ import PinModel from '../models/pinModel.js';
 // Route for creating a comment --> (POST) /api/pins/:pinId/comments/create
 export const createComment = async (req, res, next) => {
   try {
-    const pinId = req.baseUrl.split('/')[3]; // This extracts "pinId" from "/api/pins/:pinId/comments"
+    const pinId = req.params.pinId;
 
     const pin = await PinModel.findById(pinId);
 
@@ -16,10 +16,13 @@ export const createComment = async (req, res, next) => {
       });
     }
 
+    // Create the comment with proper references
     const newComment = new CommentModel({
       comment: req.body.comment,
+      owner: req.user._id,
+      pin: pinId, // Set reference to the pin
     });
-    newComment.owner = req.user._id;
+
     pin.comments.push(newComment);
     const createdComment = await newComment.save();
     await pin.save();
@@ -42,7 +45,7 @@ export const createComment = async (req, res, next) => {
 // Route for getting all comments --> (GET) /api/comments
 export const getAllComments = async (req, res, next) => {
   try {
-    const comments = await CommentModel.find();
+    const comments = await CommentModel.find().populate('owner', 'name');
 
     if (!comments) {
       return res.status(404).json({
@@ -67,7 +70,10 @@ export const getAllComments = async (req, res, next) => {
 // Route for getting a single comment --> (GET) /api/comments/:id
 export const getSingleComment = async (req, res, next) => {
   try {
-    const comment = await CommentModel.findById(req.params.id);
+    const comment = await CommentModel.findById(req.params.id).populate(
+      'owner',
+      'name'
+    );
 
     if (!comment) {
       return res.status(404).json({
@@ -125,14 +131,10 @@ export const updateComment = async (req, res, next) => {
 // Route for deleting a comment --> (DELETE) /api/comments/:id
 export const deleteComment = async (req, res, next) => {
   try {
-    const comment = await CommentModel.findByIdAndDelete(req.params.id);
-
-    if (!comment) {
-      return res.status(404).json({
-        success: false,
-        message: 'Comment not found',
-      });
-    }
+    const { id } = req.params;
+    const pinId = req.params.pinId;
+    await PinModel.findByIdAndUpdate(pinId, { $pull: { comments: id } });
+    await CommentModel.findByIdAndDelete(id);
 
     res.status(200).json({
       success: true,
