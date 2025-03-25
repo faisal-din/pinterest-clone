@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useMemo, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import { pinData } from '../assets/constants';
 import { Loading } from '../Components/Loading';
 import { UserContext } from '../Context/UserContext';
 import { PinContext } from '../Context/PinContext';
@@ -156,7 +155,7 @@ const PinPage = () => {
                       <span className='font-medium '>{comment.username}</span>
                       <p className='text-base'>{comment.comment}</p>
                       <p className='text-sm text-gray-500'>
-                        {comment.dateCreated.toString().split('T')[0]}
+                        {comment.dateCreated}
                       </p>
                     </div>
                   </div>

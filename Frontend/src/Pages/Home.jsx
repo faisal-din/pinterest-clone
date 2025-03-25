@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import Explore from './Explore';
-import { pinData } from '../assets/constants';
 import PinCard from '../Components/PinCard';
 import { Loading } from '../Components/Loading';
 import { PinContext } from '../Context/PinContext';

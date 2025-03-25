@@ -17,12 +17,19 @@ const Navbar = ({ user }) => {
             </div>
           </Link>
 
-          {!isAuthenticated && (
+          {!isAuthenticated ? (
             <NavLink
               to='/explore'
-              className='py-3 px-3 rounded-full bg-black text-white'
+              className='py-2 px-3 rounded-full bg-black text-white'
             >
               <p>Explore</p>
+            </NavLink>
+          ) : (
+            <NavLink
+              to='/create-pin'
+              className='py-2 px-3 rounded-full bg-black text-white'
+            >
+              <p>Create Pin</p>
             </NavLink>
           )}
         </div>

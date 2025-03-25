@@ -14,6 +14,7 @@ import { useContext } from 'react';
 import { UserContext } from './Context/UserContext';
 import { Loading } from './Components/Loading';
 import PinPage from './Pages/PinPage';
+import CreatePin from './Pages/CreatePin';
 
 function App() {
   const { user, isAuthenticated, loading } = useContext(UserContext);
@@ -35,6 +36,7 @@ function App() {
               path='/explore'
               element={!isAuthenticated ? <Explore /> : <Navigate to='/' />}
             />
+            <Route path='create-pin' element={<CreatePin />} />
             <Route path='/pin/:pinId' element={<PinPage />} />
             <Route
               path='/login'

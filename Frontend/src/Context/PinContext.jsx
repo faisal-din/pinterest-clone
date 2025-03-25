@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { createContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export const PinContext = createContext();
 
@@ -9,6 +11,7 @@ const PinContextProvider = ({ children }) => {
   const [currentPin, setCurrentPin] = useState(null);
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const navigate = useNavigate();
 
   // Create an axios instance with default configs
   const api = axios.create({
@@ -16,7 +19,37 @@ const PinContextProvider = ({ children }) => {
     withCredentials: true,
   });
 
-  const creatPin = async () => {};
+  const createPin = async (
+    formData,
+    setImage,
+    setImagePreview,
+    setTitle,
+    setDescription,
+    setTags
+  ) => {
+    setLoading(true);
+    try {
+      const response = await api.post('/api/pins/create', formData);
+
+      if (response.data.success) {
+        setPins([...pins, response.data.savedPin]);
+        setImage(null);
+        setImagePreview(null);
+        setTitle('');
+        setDescription('');
+        setTags('');
+        toast.success('Pin created successfully');
+
+        // Redirect to home page
+        navigate('/');
+      }
+    } catch (error) {
+      console.log('Error creating pin:', error.response.data);
+      toast.error(error.response.data.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const fetchAllPins = async () => {
     setLoading(true);
@@ -36,7 +69,7 @@ const PinContextProvider = ({ children }) => {
     setLoading(true);
     try {
       const response = await api.get(`/api/pins/${pinId}`);
-      console.log('fetch single pin response:', response.data);
+
       if (response.data.success) {
         setCurrentPin(response.data.pin);
       }
@@ -56,7 +89,7 @@ const PinContextProvider = ({ children }) => {
   const values = {
     pins,
     setPins,
-    creatPin,
+    createPin,
     currentPin,
     setCurrentPin,
     fetchAllPins,
