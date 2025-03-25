@@ -1,14 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const PinCard = ({ id, image, title }) => {
+const PinCard = ({ pin }) => {
   return (
-    <Link to={`/pin/${id}`}>
+    <Link to={`/pin/${pin._id}`}>
       <div className='mt-5 rounded-2xl overflow-hidden group relative cursor-pointer'>
         {/* Background Image */}
         <img
-          src={image}
-          alt={title}
+          src={pin.image}
+          alt={pin.title}
           className=' w-full object-cover rounded-2xl '
         />
 

@@ -3,29 +3,27 @@ import { useParams } from 'react-router-dom';
 import { pinData } from '../assets/constants';
 import { Loading } from '../Components/Loading';
 import { UserContext } from '../Context/UserContext';
+import { PinContext } from '../Context/PinContext';
 
 const PinPage = () => {
   const { user, loading, setLoading } = useContext(UserContext);
+  const { currentPin, fetchSinglePin } = useContext(PinContext);
 
   const { pinId } = useParams();
-  const [pin, setPin] = useState(null);
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [comment, setComment] = useState('');
 
-  const searchId = useMemo(
-    () => (isNaN(pinId) ? pinId : Number(pinId)),
-    [pinId]
-  );
+  useEffect(() => {
+    fetchSinglePin(pinId);
+  }, [pinId]);
 
   useEffect(() => {
-    const foundPin = pinData.find((pin) => pin.id === searchId);
-    if (foundPin) {
-      setPin(foundPin);
-      setLikeCount(foundPin.likes); // Initialize likes
+    if (currentPin) {
+      setLikeCount(currentPin.likes || 0);
+      setLoading(false);
     }
-    setLoading(false);
-  }, [searchId]);
+  }, [currentPin]);
 
   const handleLike = () => {
     setLiked(!liked);
@@ -33,24 +31,25 @@ const PinPage = () => {
   };
 
   const handleComment = () => {
+    if (!comment.trim()) return;
+
     // Add comment to pin
     const newComment = {
       username: user.name,
-      content: comment,
-      timestamp: new Date().toISOString(),
+      comment: comment,
+      dateCreated: new Date().toISOString(),
     };
 
-    setPin((prevPin) => ({
-      ...prevPin,
-      comments: [...prevPin.comments, newComment],
-    }));
+    // You might want to call an API method to add comment here
+    // For now, this is a local update
+    currentPin.comments.push(newComment);
 
-    setComment(''); // Clear input
+    setComment(''); // Clear the input field
   };
 
   if (loading) return <Loading />;
 
-  if (!pin) {
+  if (!currentPin) {
     return (
       <div className='flex flex-col items-center justify-center min-h-[60vh]'>
         <h2 className='text-2xl font-semibold text-red-600'>Pin not found</h2>
@@ -67,8 +66,8 @@ const PinPage = () => {
         {/* Image Section */}
         <div className='w-full md:w-1/2 h-96 md:h-auto max-h-screen'>
           <img
-            src={pin.image}
-            alt={pin.title}
+            src={currentPin.image}
+            alt={currentPin.title}
             className='w-full h-full object-contain md:object-cover'
             loading='lazy'
           />
@@ -89,7 +88,7 @@ const PinPage = () => {
               ></i>
               <p className='text-lg'>{likeCount}</p>
             </button>
-            <button className='px-4 py-2 bg-red-600 text-white rounded-full hover:bg-red-700 transition-colors'>
+            <button className='px-4 py-2 bg-red-600 text-white rounded-full hover:bg-red-700 transition-colors cursor-pointer'>
               Save
             </button>
           </div>
@@ -97,12 +96,12 @@ const PinPage = () => {
           {/* Title & User Info */}
           <div className='flex items-start justify-between mt-4'>
             <h1 className='text-3xl font-semibold'>
-              {pin.title || 'Untitled Pin'}
+              {currentPin.title || 'Untitled Pin'}
             </h1>
           </div>
 
           {/* Creator */}
-          {pin.creator && (
+          {currentPin.owner && (
             <div className='flex items-center gap-3 mt-2'>
               <img
                 src='https://i.pinimg.com/75x75_RS/64/e1/0d/64e10d9fd2565527c4651caace60e6cb.jpg'
@@ -111,22 +110,22 @@ const PinPage = () => {
               />
 
               <div>
-                <p className='font-medium'>{pin.creator.fullName}</p>
+                <p className='font-medium'>{currentPin.owner.name}</p>
               </div>
             </div>
           )}
 
           {/* Description */}
           <p className='mt-4 text-lg'>
-            {pin.description || 'No description provided'}
+            {currentPin.description || 'No description provided'}
           </p>
 
           {/* Tags */}
-          {pin.tags?.length > 0 && (
+          {currentPin.tags?.length > 0 && (
             <div className='mt-6'>
               <h3 className='text-lg font-medium mb-2'>Tags</h3>
               <div className='flex flex-wrap gap-2'>
-                {pin.tags.map((tag, index) => (
+                {currentPin.tags.map((tag, index) => (
                   <span
                     key={index}
                     className='px-3 py-1 bg-gray-100 rounded-full text-sm'
@@ -139,13 +138,13 @@ const PinPage = () => {
           )}
 
           {/* Comments */}
-          {pin.comments?.length > 0 && (
+          {currentPin.comments?.length > 0 && (
             <div className='mt-6'>
               <h3 className='text-lg font-medium mb-2'>
-                Comments ({pin.comments.length})
+                Comments ({currentPin.comments.length})
               </h3>
               <div className='max-h-64 overflow-y-auto'>
-                {pin.comments.map((comment, index) => (
+                {currentPin.comments.map((comment, index) => (
                   <div key={index} className='py-3 border-b last:border-0 flex'>
                     <img
                       src='https://i.pinimg.com/75x75_RS/64/e1/0d/64e10d9fd2565527c4651caace60e6cb.jpg'
@@ -155,9 +154,11 @@ const PinPage = () => {
 
                     <div className='ml-4 flex flex-col items-start'>
                       <span className='font-medium '>{comment.username}</span>
-                      <p className='text-base'>{comment.content}</p>
+                      <p className='text-base'>{comment.comment}</p>
+                      <p className='text-sm text-gray-500'>
+                        {comment.dateCreated.toString().split('T')[0]}
+                      </p>
                     </div>
-                    <p>{comment.dateCreated}</p>
                   </div>
                 ))}
               </div>
