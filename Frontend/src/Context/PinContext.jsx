@@ -97,7 +97,19 @@ const PinContextProvider = ({ children }) => {
     }
   };
 
-  const deleteComment = async () => {};
+  const deleteComment = async (pinId, commentId) => {
+    try {
+      const { data } = await api.delete(
+        `/api/pins/${pinId}/comments/${commentId}`
+      );
+      // After deleting a comment, fetch the updated pin data
+      await fetchSinglePin(currentPin._id);
+      toast.success(data.message);
+    } catch (error) {
+      console.log('Error deleting comment:', error.response);
+      toast.error(error.response.data.message);
+    }
+  };
 
   useEffect(() => {
     fetchAllPins();

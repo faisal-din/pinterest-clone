@@ -30,8 +30,6 @@ const UserContextProvider = ({ children }) => {
         password,
       });
 
-      console.log('register response:', response.data);
-
       if (response.data.success) {
         toast.success(response.data.message);
         setUser(response.data.user);
@@ -78,7 +76,6 @@ const UserContextProvider = ({ children }) => {
       setBTnLoading(true);
       const response = await api.post('/api/auth/logout');
 
-      console.log('logout response:', response.data);
       if (response.data.success) {
         setUser(null);
         setIsAuthenticated(false);

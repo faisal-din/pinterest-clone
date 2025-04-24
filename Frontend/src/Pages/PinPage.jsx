@@ -5,8 +5,9 @@ import { UserContext } from '../Context/UserContext';
 import { PinContext } from '../Context/PinContext';
 
 const PinPage = () => {
-  const { loading, setLoading } = useContext(UserContext);
-  const { currentPin, fetchSinglePin, createComment } = useContext(PinContext);
+  const { user, loading, setLoading } = useContext(UserContext);
+  const { currentPin, fetchSinglePin, createComment, deleteComment } =
+    useContext(PinContext);
 
   const { pinId } = useParams();
   const [liked, setLiked] = useState(false);
@@ -33,6 +34,10 @@ const PinPage = () => {
     e.preventDefault();
     if (!comment.trim()) return;
     createComment(comment, setComment, pinId);
+  };
+
+  const handleDeleteComment = (commentId) => {
+    deleteComment(pinId, commentId);
   };
 
   if (loading) return <Loading />;
@@ -147,6 +152,16 @@ const PinPage = () => {
                         {comment.dateCreated}
                       </p>
                     </div>
+
+                    {/* Delete button for comment */}
+                    {comment.owner._id === user._id && (
+                      <button
+                        onClick={() => handleDeleteComment(comment._id)}
+                        className='ml-auto text-red-500 hover:text-red-700 transition-colors cursor-pointer'
+                      >
+                        <i className='fa-solid fa-trash'></i>
+                      </button>
+                    )}
                   </div>
                 ))}
               </div>
