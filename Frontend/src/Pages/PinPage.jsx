@@ -5,8 +5,8 @@ import { UserContext } from '../Context/UserContext';
 import { PinContext } from '../Context/PinContext';
 
 const PinPage = () => {
-  const { user, loading, setLoading } = useContext(UserContext);
-  const { currentPin, fetchSinglePin } = useContext(PinContext);
+  const { loading, setLoading } = useContext(UserContext);
+  const { currentPin, fetchSinglePin, createComment } = useContext(PinContext);
 
   const { pinId } = useParams();
   const [liked, setLiked] = useState(false);
@@ -29,21 +29,10 @@ const PinPage = () => {
     setLikeCount((prev) => (liked ? prev - 1 : prev + 1));
   };
 
-  const handleComment = () => {
+  const handleCreateComment = (e) => {
+    e.preventDefault();
     if (!comment.trim()) return;
-
-    // Add comment to pin
-    const newComment = {
-      username: user.name,
-      comment: comment,
-      dateCreated: new Date().toISOString(),
-    };
-
-    // You might want to call an API method to add comment here
-    // For now, this is a local update
-    currentPin.comments.push(newComment);
-
-    setComment(''); // Clear the input field
+    createComment(comment, setComment, pinId);
   };
 
   if (loading) return <Loading />;
@@ -152,7 +141,7 @@ const PinPage = () => {
                     />
 
                     <div className='ml-4 flex flex-col items-start'>
-                      <span className='font-medium '>{comment.username}</span>
+                      <span className='font-medium '>{comment.owner.name}</span>
                       <p className='text-base'>{comment.comment}</p>
                       <p className='text-sm text-gray-500'>
                         {comment.dateCreated}
@@ -174,7 +163,7 @@ const PinPage = () => {
               className='w-full px-4 py-2 border border-gray-300 rounded-2xl focus:outline-none focus:ring focus:ring-red-600'
             />
             <button
-              onClick={handleComment}
+              onClick={handleCreateComment}
               disabled={!comment.trim()}
               className='p-2  rounded-full transition-colors cursor-pointer '
             >

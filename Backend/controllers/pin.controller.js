@@ -85,23 +85,13 @@ export const getSinglePin = async (req, res, next) => {
   try {
     const pin = await PinModel.findById(req.params.id)
       .populate('owner', 'name')
-      .populate('comments', 'comment owner');
-    // .populate({
-    //   path: 'comments',
-    //   populate: {
-    //     path: 'owner',
-    //     select: 'name', // Only fetch the fields you need
-    //   },
-    // })
-
-    // const pin = await PinModel.findById(req.params.id)
-    //   .populate({
-    //     path: 'comments',
-    //     populate: {
-    //       path: 'owner',
-    //     },
-    //   })
-    //   .populate('owner');
+      .populate({
+        path: 'comments',
+        populate: {
+          path: 'owner',
+          select: 'name', // Only fetch the fields you need
+        },
+      });
 
     if (!pin) {
       return res.status(404).json({

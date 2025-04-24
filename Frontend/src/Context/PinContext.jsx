@@ -82,6 +82,23 @@ const PinContextProvider = ({ children }) => {
   const updatePin = async () => {};
   const DeletePin = async () => {};
 
+  const createComment = async (comment, setComment, pinId) => {
+    try {
+      const { data } = await api.post(`/api/pins/${pinId}/comments/create`, {
+        comment,
+      });
+      // After creating a comment, fetch the updated pin data
+      await fetchSinglePin(pinId);
+      toast.success(data.message);
+      setComment('');
+    } catch (error) {
+      console.log('Error creating comment:', error.response);
+      toast.error(error.response.data.message);
+    }
+  };
+
+  const deleteComment = async () => {};
+
   useEffect(() => {
     fetchAllPins();
   }, []);
@@ -98,6 +115,8 @@ const PinContextProvider = ({ children }) => {
     DeletePin,
     loading,
     setLoading,
+    createComment,
+    deleteComment,
   };
 
   return <PinContext.Provider value={values}>{children}</PinContext.Provider>;

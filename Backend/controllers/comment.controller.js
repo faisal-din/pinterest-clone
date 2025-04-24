@@ -19,7 +19,7 @@ export const createComment = async (req, res, next) => {
     // Create the comment with proper references
     const newComment = new CommentModel({
       comment: req.body.comment,
-      owner: req.user._id,
+      owner: req.user._id, // Set reference to the user who created the comment
       pin: pinId, // Set reference to the pin
     });
 

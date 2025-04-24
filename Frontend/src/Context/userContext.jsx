@@ -56,7 +56,6 @@ const UserContextProvider = ({ children }) => {
         password,
       });
 
-      console.log('login response:', response);
       if (response.data.success) {
         // Extract user data but filter out password
         const { password, ...userData } = response.data.user;
