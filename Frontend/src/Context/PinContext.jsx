@@ -79,8 +79,22 @@ const PinContextProvider = ({ children }) => {
       setLoading(false);
     }
   };
-  const updatePin = async () => {};
-  const DeletePin = async () => {};
+
+  const DeletePin = async () => {
+    try {
+      const response = await api.delete(`/api/pins/${currentPin._id}`);
+
+      console.log('deleted pin response:', response.data);
+      if (response.data.success) {
+        toast.success('Pin deleted successfully');
+        await fetchAllPins();
+        navigate('/');
+      }
+    } catch (error) {
+      console.log('Error deleting pin:', error.response.data);
+      toast.error(error.response.data.message);
+    }
+  };
 
   const createComment = async (comment, setComment, pinId) => {
     try {

@@ -30,8 +30,6 @@ const CreatePin = () => {
       console.log('Please upload an image');
     }
 
-    console.log('image', image);
-
     const formData = new FormData();
     formData.append('image', image);
     formData.append('title', title);

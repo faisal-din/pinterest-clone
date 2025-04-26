@@ -5,25 +5,24 @@ import { UserContext } from '../Context/UserContext';
 import { PinContext } from '../Context/PinContext';
 
 const PinPage = () => {
-  const { user, loading, setLoading } = useContext(UserContext);
-  const { currentPin, fetchSinglePin, createComment, deleteComment } =
-    useContext(PinContext);
+  const { user, loading } = useContext(UserContext);
+  const {
+    currentPin,
+    fetchSinglePin,
+    DeletePin,
+    createComment,
+    deleteComment,
+  } = useContext(PinContext);
 
   const { pinId } = useParams();
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [comment, setComment] = useState('');
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     fetchSinglePin(pinId);
   }, [pinId]);
-
-  useEffect(() => {
-    if (currentPin) {
-      setLikeCount(currentPin.likes || 0);
-      setLoading(false);
-    }
-  }, [currentPin]);
 
   const handleLike = () => {
     setLiked(!liked);
@@ -38,6 +37,10 @@ const PinPage = () => {
 
   const handleDeleteComment = (commentId) => {
     deleteComment(pinId, commentId);
+  };
+
+  const handleDeletePin = () => {
+    DeletePin(pinId);
   };
 
   if (loading) return <Loading />;
@@ -70,17 +73,50 @@ const PinPage = () => {
         <div className='w-full md:w-1/2 p-6 flex flex-col bg-amber-50 h-auto'>
           {/* Header (Likes & Save Button) */}
           <div className='flex items-center justify-between'>
-            <button
-              className='flex items-center space-x-2 cursor-pointer'
-              onClick={handleLike}
-            >
-              <i
-                className={`fa-solid fa-heart text-xl ${
-                  liked ? 'text-red-600' : 'text-gray-500'
-                }`}
-              ></i>
-              <p className='text-lg'>{likeCount}</p>
-            </button>
+            <div className='relative flex items-center space-x-4'>
+              <button
+                className='flex items-center space-x-2 cursor-pointer'
+                onClick={handleLike}
+              >
+                <i
+                  className={`fa-solid fa-heart text-xl ${
+                    liked ? 'text-red-600' : 'text-gray-500'
+                  }`}
+                ></i>
+                <p className='text-lg'>{likeCount}</p>
+              </button>
+
+              <button className='px-2 py-1 bg-gray-200 rounded-full hover:bg-gray-300 transition-colors cursor-pointer'>
+                <i className='fa-solid fa-share text-lg'></i>
+              </button>
+
+              <div className='relative'>
+                <button
+                  onClick={() => setVisible(!visible)}
+                  className='px-2 py-1 bg-gray-200 rounded-full hover:bg-gray-300 transition-colors cursor-pointer'
+                >
+                  <i className='fa-solid fa-ellipsis text-lg'></i>
+                </button>
+                <div
+                  className={`absolute left-1 mt-2 w-40 bg-white border border-gray-300 rounded-md shadow-lg z-10 ${
+                    visible ? 'block' : 'hidden'
+                  }`}
+                >
+                  <ul className='py-2'>
+                    <li className='px-4 py-2 hover:bg-gray-100 cursor-pointer'>
+                      Edit Pin
+                    </li>
+                    <li
+                      onClick={handleDeletePin}
+                      className='px-4 py-2 hover:bg-gray-100 cursor-pointer'
+                    >
+                      Delete Pin
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
             <button className='px-4 py-2 bg-red-600 text-white rounded-full hover:bg-red-700 transition-colors cursor-pointer'>
               Save
             </button>
@@ -112,23 +148,6 @@ const PinPage = () => {
           <p className='mt-4 text-lg'>
             {currentPin.description || 'No description provided'}
           </p>
-
-          {/* Tags */}
-          {currentPin.tags?.length > 0 && (
-            <div className='mt-6'>
-              <h3 className='text-lg font-medium mb-2'>Tags</h3>
-              <div className='flex flex-wrap gap-2'>
-                {currentPin.tags.map((tag, index) => (
-                  <span
-                    key={index}
-                    className='px-3 py-1 bg-gray-100 rounded-full text-sm'
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
 
           {/* Comments */}
           {currentPin.comments?.length > 0 && (
