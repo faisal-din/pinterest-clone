@@ -31,12 +31,7 @@ const Explore = () => {
         <p className='text-3xl font-semibold'>What's new on Pinterest</p>
         <div className=' columns-[200px]  gap-4 mt-4'>
           {pinData.map((pin) => (
-            <PinCard
-              key={pin.id}
-              id={pin.id}
-              image={pin.image}
-              title={pin.title}
-            />
+            <PinCard pin={pin} key={pin.id} />
           ))}
         </div>
       </div>

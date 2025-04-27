@@ -98,7 +98,7 @@ const PinPage = () => {
                   <i className='fa-solid fa-ellipsis text-lg'></i>
                 </button>
                 <div
-                  className={`absolute left-1 mt-2 w-40 bg-white border border-gray-300 rounded-md shadow-lg z-10 ${
+                  className={`absolute left-1 mt-2 w-36 bg-white border border-gray-300 rounded-md shadow-lg z-10 ${
                     visible ? 'block' : 'hidden'
                   }`}
                 >

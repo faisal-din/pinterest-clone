@@ -74,7 +74,7 @@ const PinContextProvider = ({ children }) => {
         setCurrentPin(response.data.pin);
       }
     } catch (error) {
-      console.log('Error fetching single pin:', error);
+      console.log('Error fetching single pin:', error.response);
     } finally {
       setLoading(false);
     }

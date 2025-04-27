@@ -1,24 +1,17 @@
-import { useContext, useMemo } from 'react';
+import { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
 import { UserContext } from '../Context/UserContext';
 import { Loading } from '../Components/Loading';
-import { pinData } from '../assets/constants';
-import PinCard from '../Components/PinCard';
 import ProfileHeader from '../Components/ProfileHeader';
+import { PinContext } from '../Context/PinContext';
+import PinCard from '../Components/PinCard';
 
 const Profile = () => {
-  const { user, isAuthenticated, loading } = useContext(UserContext);
+  const { user, loading } = useContext(UserContext);
+  const { pins } = useContext(PinContext);
 
-  // Memoize pins to prevent unnecessary renders
-  const userPins = useMemo(
-    () => pinData.slice(0, 14),
-    [] // Empty dependency array since pinData is imported constant
-  );
-
-  // Redirect if not authenticated
-  if (!loading && !isAuthenticated) {
-    return <Navigate to='/login' replace />;
-  }
+  // filter pins based on user ID
+  const userPins = pins.filter((pin) => pin.owner._id === user._id);
 
   if (loading) {
     return <Loading />;
@@ -32,13 +25,7 @@ const Profile = () => {
       <div className='mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl'>
         <div className='columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-4 mt-4'>
           {userPins.map((pin) => (
-            <PinCard
-              key={pin.id}
-              id={pin.id}
-              image={pin.image}
-              title={pin.title}
-              alt={pin.title}
-            />
+            <PinCard pin={pin} key={pin._id} />
           ))}
         </div>
       </div>
