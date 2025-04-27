@@ -9,6 +9,8 @@ const PinContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [pins, setPins] = useState([]);
   const [currentPin, setCurrentPin] = useState(null);
+  const [liked, setLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(0);
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate();
@@ -96,6 +98,20 @@ const PinContextProvider = ({ children }) => {
     }
   };
 
+  const pinLikeButton = async (pinId) => {
+    try {
+      const response = await api.put(`/api/pins/${pinId}/toggleLike`);
+      console.log('pin like resposne', response.data);
+
+      if (response.data.success) {
+        setLiked(response.data.liked);
+        setLikeCount(response.data.pin.likes);
+      }
+    } catch (error) {
+      console.error('Error liking pin:', error);
+    }
+  };
+
   const createComment = async (comment, setComment, pinId) => {
     try {
       const { data } = await api.post(`/api/pins/${pinId}/comments/create`, {
@@ -137,12 +153,14 @@ const PinContextProvider = ({ children }) => {
     setCurrentPin,
     fetchAllPins,
     fetchSinglePin,
-    updatePin,
     DeletePin,
     loading,
     setLoading,
     createComment,
     deleteComment,
+    pinLikeButton,
+    liked,
+    likeCount,
   };
 
   return <PinContext.Provider value={values}>{children}</PinContext.Provider>;

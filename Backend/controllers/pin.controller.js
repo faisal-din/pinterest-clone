@@ -160,3 +160,49 @@ export const updatePin = async (req, res, next) => {
     });
   }
 };
+
+// Route for liking and unliking a pin --> (PUT) /api/pins/:id/toggleLike
+export const likePin = async (req, res, next) => {
+  try {
+    const pin = await PinModel.findById(req.params.id);
+    const userId = req.user._id; // Assuming you have authentication
+
+    if (!pin) {
+      return res.status(404).json({
+        success: false,
+        message: 'Pin not found',
+      });
+    }
+
+    // Check if user already liked this pin
+    const userIndex = pin.likedBy.indexOf(userId);
+
+    if (userIndex === -1) {
+      // User hasn't liked the pin yet, so add like
+      pin.likes += 1;
+      pin.likedBy.push(userId);
+    } else {
+      // User already liked the pin, so remove like
+      pin.likes = Math.max(0, pin.likes - 1);
+      pin.likedBy.splice(userIndex, 1);
+    }
+
+    await pin.save();
+
+    res.status(200).json({
+      success: true,
+      message:
+        userIndex === -1
+          ? 'Pin liked successfully'
+          : 'Pin unliked successfully',
+      pin,
+      liked: userIndex === -1, // Tell the frontend if the pin is now liked or unliked
+    });
+  } catch (error) {
+    console.log('Error liking pin...', error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};

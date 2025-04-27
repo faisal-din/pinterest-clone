@@ -7,6 +7,7 @@ import {
   deletePin,
   getAllPins,
   getSinglePin,
+  likePin,
   updatePin,
 } from '../controllers/pin.controller.js';
 
@@ -19,5 +20,7 @@ pinRouter.post('/create', isAuthenticated, upload.single('image'), createPin);
 pinRouter.put('/:id', isAuthenticated, updatePin);
 
 pinRouter.delete('/:id', isAuthenticated, deletePin);
+
+pinRouter.put('/:id/toggleLike', isAuthenticated, likePin);
 
 export default pinRouter;

@@ -12,11 +12,13 @@ const PinPage = () => {
     DeletePin,
     createComment,
     deleteComment,
+    pinLikeButton,
+    liked,
+    likeCount,
   } = useContext(PinContext);
 
   const { pinId } = useParams();
-  const [liked, setLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(0);
+
   const [comment, setComment] = useState('');
   const [visible, setVisible] = useState(false);
 
@@ -25,8 +27,7 @@ const PinPage = () => {
   }, [pinId]);
 
   const handleLike = () => {
-    setLiked(!liked);
-    setLikeCount((prev) => (liked ? prev - 1 : prev + 1));
+    pinLikeButton(pinId);
   };
 
   const handleCreateComment = (e) => {
