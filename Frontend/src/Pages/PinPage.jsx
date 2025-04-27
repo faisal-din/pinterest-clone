@@ -13,8 +13,6 @@ const PinPage = () => {
     createComment,
     deleteComment,
     pinLikeButton,
-    liked,
-    likeCount,
   } = useContext(PinContext);
 
   const { pinId } = useParams();
@@ -81,10 +79,10 @@ const PinPage = () => {
               >
                 <i
                   className={`fa-solid fa-heart text-xl ${
-                    liked ? 'text-red-600' : 'text-gray-500'
+                    currentPin?.likedBy ? 'text-red-600' : 'text-gray-500'
                   }`}
                 ></i>
-                <p className='text-lg'>{likeCount}</p>
+                <p className='text-lg'>{currentPin.likes}</p>
               </button>
 
               <button className='px-2 py-1 bg-gray-200 rounded-full hover:bg-gray-300 transition-colors cursor-pointer'>

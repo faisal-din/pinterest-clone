@@ -9,8 +9,6 @@ const PinContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [pins, setPins] = useState([]);
   const [currentPin, setCurrentPin] = useState(null);
-  const [liked, setLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(0);
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate();
@@ -82,9 +80,9 @@ const PinContextProvider = ({ children }) => {
     }
   };
 
-  const DeletePin = async () => {
+  const DeletePin = async (pinId) => {
     try {
-      const response = await api.delete(`/api/pins/${currentPin._id}`);
+      const response = await api.delete(`/api/pins/${pinId}`);
 
       console.log('deleted pin response:', response.data);
       if (response.data.success) {
@@ -101,11 +99,30 @@ const PinContextProvider = ({ children }) => {
   const pinLikeButton = async (pinId) => {
     try {
       const response = await api.put(`/api/pins/${pinId}/toggleLike`);
-      console.log('pin like resposne', response.data);
+      console.log('pin like response', response.data);
 
       if (response.data.success) {
-        setLiked(response.data.liked);
-        setLikeCount(response.data.pin.likes);
+        // Update the currentPin if it is the same pin
+        if (currentPin && currentPin._id === pinId) {
+          setCurrentPin((prevPin) => ({
+            ...prevPin,
+            likes: response.data.pin.likes,
+            likedBy: response.data.liked,
+          }));
+        }
+
+        // Update the pins array if needed
+        setPins((prevPins) =>
+          prevPins.map((pin) =>
+            pin._id === pinId
+              ? {
+                  ...pin,
+                  likes: response.data.pin.likes,
+                  likedBy: response.data.liked,
+                }
+              : pin
+          )
+        );
       }
     } catch (error) {
       console.error('Error liking pin:', error);
@@ -159,8 +176,6 @@ const PinContextProvider = ({ children }) => {
     createComment,
     deleteComment,
     pinLikeButton,
-    liked,
-    likeCount,
   };
 
   return <PinContext.Provider value={values}>{children}</PinContext.Provider>;
