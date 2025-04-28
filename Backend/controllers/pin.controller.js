@@ -51,14 +51,13 @@ export const getAllPins = async (req, res, next) => {
   try {
     const pins = await PinModel.find()
       .populate('owner', 'name')
-      .populate('comments', 'comment');
-    // .populate({
-    //   path: 'comments',
-    //   populate: {
-    //     path: 'owner',
-    //     select: 'name', // Only fetch the fields you need
-    //   },
-    // })
+      .populate({
+        path: 'comments',
+        populate: {
+          path: 'owner',
+          select: 'name', // Only fetch the fields you need
+        },
+      });
 
     if (!pins) {
       return res.status(404).json({
@@ -143,6 +142,12 @@ export const updatePin = async (req, res, next) => {
       });
     }
 
+    if (req.file) {
+      // If a new image is uploaded, upload it to Cloudinary
+      const imageUrl = await uploadToCloudinary(req.file.path);
+      req.body.image = imageUrl; // Update the image URL in the request body
+    }
+
     pin = await PinModel.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
@@ -150,6 +155,7 @@ export const updatePin = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
+      message: 'Pin updated successfully',
       pin,
     });
   } catch (error) {

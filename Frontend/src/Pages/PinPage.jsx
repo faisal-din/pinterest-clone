@@ -3,9 +3,10 @@ import { useParams } from 'react-router-dom';
 import { Loading } from '../Components/Loading';
 import { UserContext } from '../Context/UserContext';
 import { PinContext } from '../Context/PinContext';
+import CommentItem from '../Components/CommentItem';
 
 const PinPage = () => {
-  const { user, loading } = useContext(UserContext);
+  const { user, loading, navigate } = useContext(UserContext);
   const {
     currentPin,
     fetchSinglePin,
@@ -18,11 +19,24 @@ const PinPage = () => {
   const { pinId } = useParams();
 
   const [comment, setComment] = useState('');
-  const [visible, setVisible] = useState(false);
+  const [menuVisible, setMenuVisible] = useState(false);
 
   useEffect(() => {
     fetchSinglePin(pinId);
-  }, [pinId]);
+  }, [pinId, fetchSinglePin]);
+
+  if (loading) return <Loading />;
+
+  if (!currentPin) {
+    return (
+      <div className='flex flex-col items-center justify-center min-h-[60vh]'>
+        <h2 className='text-2xl font-semibold text-red-600'>Pin not found</h2>
+        <p className='mt-4'>
+          The pin you're looking for doesn't exist or was removed.
+        </p>
+      </div>
+    );
+  }
 
   const handleLike = () => {
     pinLikeButton(pinId);
@@ -42,18 +56,13 @@ const PinPage = () => {
     DeletePin(pinId);
   };
 
-  if (loading) return <Loading />;
+  const handleUpdatePin = () => {
+    setMenuVisible(false);
+    navigate(`/edit-pin/${pinId}`);
+  };
 
-  if (!currentPin) {
-    return (
-      <div className='flex flex-col items-center justify-center min-h-[60vh]'>
-        <h2 className='text-2xl font-semibold text-red-600'>Pin not found</h2>
-        <p className='mt-4'>
-          The pin you're looking for doesn't exist or was removed.
-        </p>
-      </div>
-    );
-  }
+  // Check if current user is the pin owner
+  const isOwner = user && currentPin.owner && user._id === currentPin.owner._id;
 
   return (
     <div className='mx-5 md:mx-8 lg:mx-14 xl:mx-[72px] min-h-[60vh] flex items-center justify-center'>
@@ -72,14 +81,14 @@ const PinPage = () => {
         <div className='w-full md:w-1/2 p-6 flex flex-col bg-amber-50 h-auto'>
           {/* Header (Likes & Save Button) */}
           <div className='flex items-center justify-between'>
-            <div className='relative flex items-center space-x-4'>
+            <div className='flex items-center space-x-4'>
               <button
                 className='flex items-center space-x-2 cursor-pointer'
                 onClick={handleLike}
               >
                 <i
                   className={`fa-solid fa-heart text-xl ${
-                    currentPin?.likedBy ? 'text-red-600' : 'text-gray-500'
+                    currentPin.likedBy ? 'text-red-600' : 'text-gray-500'
                   }`}
                 ></i>
                 <p className='text-lg'>{currentPin.likes}</p>
@@ -89,31 +98,34 @@ const PinPage = () => {
                 <i className='fa-solid fa-share text-lg'></i>
               </button>
 
-              <div className='relative'>
-                <button
-                  onClick={() => setVisible(!visible)}
-                  className='px-2 py-1 bg-gray-200 rounded-full hover:bg-gray-300 transition-colors cursor-pointer'
-                >
-                  <i className='fa-solid fa-ellipsis text-lg'></i>
-                </button>
-                <div
-                  className={`absolute left-1 mt-2 w-36 bg-white border border-gray-300 rounded-md shadow-lg z-10 ${
-                    visible ? 'block' : 'hidden'
-                  }`}
-                >
-                  <ul className='py-2'>
-                    <li className='px-4 py-2 hover:bg-gray-100 cursor-pointer'>
-                      Edit Pin
-                    </li>
-                    <li
-                      onClick={handleDeletePin}
-                      className='px-4 py-2 hover:bg-gray-100 cursor-pointer'
-                    >
-                      Delete Pin
-                    </li>
-                  </ul>
+              {isOwner && (
+                <div className='relative'>
+                  <button
+                    onClick={() => setMenuVisible(!menuVisible)}
+                    className='px-2 py-1 bg-gray-200 rounded-full hover:bg-gray-300 transition-colors cursor-pointer'
+                  >
+                    <i className='fa-solid fa-ellipsis text-lg'></i>
+                  </button>
+                  {menuVisible && (
+                    <div className='absolute left-1 mt-2 w-36 bg-white border border-gray-300 rounded-md shadow-lg z-10'>
+                      <ul className='py-2'>
+                        <li
+                          onClick={handleUpdatePin}
+                          className='px-4 py-2 hover:bg-gray-100 cursor-pointer'
+                        >
+                          Edit Pin
+                        </li>
+                        <li
+                          onClick={handleDeletePin}
+                          className='px-4 py-2 text-red-600 hover:bg-gray-100 cursor-pointer'
+                        >
+                          Delete Pin
+                        </li>
+                      </ul>
+                    </div>
+                  )}
                 </div>
-              </div>
+              )}
             </div>
 
             <button className='px-4 py-2 bg-red-600 text-white rounded-full hover:bg-red-700 transition-colors cursor-pointer'>
@@ -152,42 +164,26 @@ const PinPage = () => {
           {currentPin.comments?.length > 0 && (
             <div className='mt-6'>
               <h3 className='text-lg font-medium mb-2'>
-                Comments ({currentPin.comments.length})
+                Comments ({currentPin.comments.length || 0} )
               </h3>
               <div className='max-h-64 overflow-y-auto'>
-                {currentPin.comments.map((comment, index) => (
-                  <div key={index} className='py-3 border-b last:border-0 flex'>
-                    <img
-                      src='https://i.pinimg.com/75x75_RS/64/e1/0d/64e10d9fd2565527c4651caace60e6cb.jpg'
-                      alt='User'
-                      className='w-10 h-10 rounded-full object-cover'
-                    />
-
-                    <div className='ml-4 flex flex-col items-start'>
-                      <span className='font-medium '>{comment.owner.name}</span>
-                      <p className='text-base'>{comment.comment}</p>
-                      <p className='text-sm text-gray-500'>
-                        {comment.dateCreated}
-                      </p>
-                    </div>
-
-                    {/* Delete button for comment */}
-                    {comment.owner._id === user._id && (
-                      <button
-                        onClick={() => handleDeleteComment(comment._id)}
-                        className='ml-auto text-red-500 hover:text-red-700 transition-colors cursor-pointer'
-                      >
-                        <i className='fa-solid fa-trash'></i>
-                      </button>
-                    )}
-                  </div>
+                {currentPin.comments.map((commentData) => (
+                  <CommentItem
+                    key={commentData._id}
+                    commentData={commentData}
+                    onDelete={handleDeleteComment}
+                    currentUserId={user._id}
+                  />
                 ))}
               </div>
             </div>
           )}
 
           {/* Input bar for add comment  */}
-          <div className='mt-6 flex items-center gap-2'>
+          <form
+            onSubmit={handleCreateComment}
+            className='mt-6 flex items-center gap-2'
+          >
             <input
               onChange={(e) => setComment(e.target.value)}
               value={comment}
@@ -196,13 +192,13 @@ const PinPage = () => {
               className='w-full px-4 py-2 border border-gray-300 rounded-2xl focus:outline-none focus:ring focus:ring-red-600'
             />
             <button
-              onClick={handleCreateComment}
+              type='submit'
               disabled={!comment.trim()}
-              className='p-2  rounded-full transition-colors cursor-pointer '
+              className='p-2 rounded-full transition-colors cursor-pointer'
             >
               <i className='fa-solid fa-paper-plane text-xl text-red-500'></i>
             </button>
-          </div>
+          </form>
         </div>
       </div>
     </div>

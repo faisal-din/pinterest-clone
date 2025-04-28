@@ -129,6 +129,7 @@ const UserContextProvider = ({ children }) => {
     setIsAuthenticated,
     unsplashKey,
     backendUrl,
+    navigate,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

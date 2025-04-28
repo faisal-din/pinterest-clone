@@ -80,6 +80,27 @@ const PinContextProvider = ({ children }) => {
     }
   };
 
+  const updatePin = async (pinId, formData) => {
+    try {
+      const response = await api.put(`/api/pins/${pinId}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data', // Important
+        },
+      });
+
+      if (response.data.success) {
+        toast.success('Pin updated successfully');
+        navigate(`/pin/${pinId}`); // Redirect to view page
+      }
+    } catch (error) {
+      console.error(
+        'Error updating pin:',
+        error.response?.data || error.message
+      );
+      toast.error(error.response?.data?.message || 'Error updating pin');
+    }
+  };
+
   const DeletePin = async (pinId) => {
     try {
       const response = await api.delete(`/api/pins/${pinId}`);
@@ -165,11 +186,12 @@ const PinContextProvider = ({ children }) => {
   const values = {
     pins,
     setPins,
-    createPin,
     currentPin,
     setCurrentPin,
     fetchAllPins,
     fetchSinglePin,
+    createPin,
+    updatePin,
     DeletePin,
     loading,
     setLoading,

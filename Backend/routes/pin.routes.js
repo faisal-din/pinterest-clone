@@ -17,7 +17,7 @@ pinRouter.get('/:id', isAuthenticated, getSinglePin);
 
 pinRouter.post('/create', isAuthenticated, upload.single('image'), createPin);
 
-pinRouter.put('/:id', isAuthenticated, updatePin);
+pinRouter.put('/:id', isAuthenticated, upload.single('image'), updatePin);
 
 pinRouter.delete('/:id', isAuthenticated, deletePin);
 

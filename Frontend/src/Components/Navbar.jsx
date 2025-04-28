@@ -3,7 +3,13 @@ import { Link, NavLink } from 'react-router-dom';
 import { UserContext } from '../Context/UserContext';
 
 const Navbar = ({ user }) => {
-  const { isAuthenticated, setIsAuthenticated } = useContext(UserContext);
+  const { isAuthenticated, setIsAuthenticated, navigate } =
+    useContext(UserContext);
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    navigate('/');
+  };
 
   return (
     <nav>
@@ -56,7 +62,8 @@ const Navbar = ({ user }) => {
                   {user.name.slice(0, 1)}
                 </NavLink>
                 <button
-                  onClick={() => setIsAuthenticated(false)}
+                  onClick={() => handleLogout()}
+                  type='button'
                   className='py-2 px-4 rounded-full bg-red-600 text-white hover:bg-red-700 cursor-pointer'
                 >
                   <p>Log out</p>

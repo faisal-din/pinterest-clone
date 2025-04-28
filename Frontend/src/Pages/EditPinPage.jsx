@@ -1,15 +1,34 @@
-import React, { useContext, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { PinContext } from '../Context/PinContext';
 import { LoadingAnimation } from '../Components/Loading';
 import { toast } from 'react-toastify';
 
-const CreatePin = () => {
-  const { createPin, loading } = useContext(PinContext);
+const EditPinPage = () => {
+  const { pinId } = useParams();
+  const navigate = useNavigate();
+
+  const { currentPin, fetchSinglePin, updatePin, loading } =
+    useContext(PinContext);
 
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+
+  useEffect(() => {
+    if (!currentPin || currentPin._id !== pinId) {
+      fetchSinglePin(pinId);
+    }
+  }, [pinId, fetchSinglePin, currentPin]);
+
+  useEffect(() => {
+    if (currentPin) {
+      setTitle(currentPin.title || '');
+      setDescription(currentPin.description || '');
+      setImagePreview(currentPin.image || null);
+    }
+  }, [currentPin]);
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -23,31 +42,42 @@ const CreatePin = () => {
     }
   };
 
-  const createPinHandler = (e) => {
+  const updatePinHandler = (e) => {
     e.preventDefault();
 
-    if (!image) {
-      toast.error('Please upload an image');
-      return;
+    const formData = new FormData();
+
+    // Only append image if a new one was selected
+    if (image) {
+      formData.append('image', image);
     }
 
-    const formData = new FormData();
-    formData.append('image', image);
     formData.append('title', title);
     formData.append('description', description);
 
-    createPin(formData, setImage, setImagePreview, setTitle, setDescription);
+    updatePin(pinId, formData);
   };
+
+  if (!currentPin) {
+    return (
+      <div className='flex flex-col items-center justify-center min-h-[60vh]'>
+        <h2 className='text-2xl font-semibold text-red-600'>Pin not found</h2>
+        <p className='mt-4'>
+          The pin you're looking for doesn't exist or was removed.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className='container mx-auto px-4 py-8 max-w-4xl'>
-      <h1 className='text-3xl font-bold text-center mb-8'>Create a New Pin</h1>
       <div className='bg-gray-100 shadow-2xl rounded-2xl overflow-hidden'>
+        <h1 className='text-3xl font-bold text-center mb-8'>Update Pin</h1>
         <div className='p-8 grid md:grid-cols-2 gap-8 items-center'>
           {/* Image Upload Section */}
           <div className='space-y-4'>
             <h2 className='text-2xl font-bold text-gray-800 mb-4'>
-              Upload Image
+              Update Image
             </h2>
             <div
               className='border-2 border-dashed border-red-300 rounded-2xl p-6 text-center 
@@ -77,14 +107,14 @@ const CreatePin = () => {
                 className='mt-4 inline-block px-6 py-2 bg-red-600 text-white 
                 rounded-full hover:bg-red-700 transition-colors cursor-pointer'
               >
-                Choose File
+                {image ? 'Change Image' : 'Choose New Image'}
               </label>
             </div>
           </div>
 
           {/* Form Section */}
           <>
-            <form onSubmit={createPinHandler} className='space-y-6'>
+            <form onSubmit={updatePinHandler} className='space-y-6'>
               <div>
                 <label
                   htmlFor='title'
@@ -121,13 +151,24 @@ const CreatePin = () => {
                 ></textarea>
               </div>
 
-              <button
-                type='submit'
-                className='w-full bg-red-600 text-white py-2 rounded-full 
-                hover:bg-red-700 transition-colors font-semibold text-lg cursor-pointer'
-              >
-                {loading ? <LoadingAnimation /> : 'Create Pin'}
-              </button>
+              <div className='flex space-x-4'>
+                <button
+                  type='button'
+                  onClick={() => navigate(`/pin/${pinId}`)}
+                  className='w-1/3 bg-gray-300 text-gray-800 py-2 rounded-full 
+                  hover:bg-gray-400 transition-colors font-semibold text-lg cursor-pointer'
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type='submit'
+                  className='w-2/3 bg-red-600 text-white py-2 rounded-full 
+                  hover:bg-red-700 transition-colors font-semibold text-lg cursor-pointer'
+                >
+                  {loading ? <LoadingAnimation /> : 'Update Pin'}
+                </button>
+              </div>
             </form>
           </>
         </div>
@@ -136,4 +177,4 @@ const CreatePin = () => {
   );
 };
 
-export default CreatePin;
+export default EditPinPage;
