@@ -16,16 +16,12 @@ export const createPin = async (req, res, next) => {
     // Extract pin data from request body
     const { title, description, tags } = req.body;
 
-    // Process tags if they were sent as a comma-separated string
-    const formattedTags = tags ? tags.split(',').map((tag) => tag.trim()) : [];
-
     // Create new pin with Cloudinary image URL
     const newPin = new PinModel({
       title,
       description,
       image: imageUrl, // Store the Cloudinary URL, not local file path
       owner: req.user._id, // Assuming authentication middleware provides user
-      tags: formattedTags,
     });
 
     // Save the pin to database

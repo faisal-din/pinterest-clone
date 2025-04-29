@@ -6,19 +6,8 @@ const userSchema = mongoose.Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     bio: { type: String, default: '' },
-    profilePic: { type: String, default: '' },
-    followers: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-      },
-    ],
-    following: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-      },
-    ],
+    username: { type: String, required: true },
+    profileImage: { type: String, default: '' },
   },
   {
     timestamps: true,

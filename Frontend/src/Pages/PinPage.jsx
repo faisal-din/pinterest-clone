@@ -78,7 +78,7 @@ const PinPage = () => {
         </div>
 
         {/* Details Section */}
-        <div className='w-full md:w-1/2 p-6 flex flex-col bg-amber-50 h-auto'>
+        <div className='w-full md:w-1/2 p-4 flex flex-col bg-amber-50 h-auto'>
           {/* Header (Likes & Save Button) */}
           <div className='flex items-center justify-between'>
             <div className='flex items-center space-x-4'>
@@ -162,11 +162,11 @@ const PinPage = () => {
 
           {/* Comments */}
           {currentPin.comments?.length > 0 && (
-            <div className='mt-6'>
+            <div className='mt-5'>
               <h3 className='text-lg font-medium mb-2'>
                 Comments ({currentPin.comments.length || 0} )
               </h3>
-              <div className='max-h-64 overflow-y-auto'>
+              <div className='max-h-44 overflow-y-auto'>
                 {currentPin.comments.map((commentData) => (
                   <CommentItem
                     key={commentData._id}

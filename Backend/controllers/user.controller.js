@@ -2,6 +2,7 @@ import UserModel from '../models/userModel.js';
 import validator from 'validator';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { uploadToCloudinary } from '../config/cloudinary.js';
 
 // Route for user registration/sign-up  --> (POST) /api/auth/register
 export const registerUser = async (req, res, next) => {
@@ -199,5 +200,43 @@ export const getCurrentUser = async (req, res, next) => {
       success: false,
       message: error.message,
     });
+  }
+};
+
+// Route to update user profile --> (PuT) /api/auth/profile
+export const updateUserProfile = async (req, res, next) => {
+  try {
+    const userId = req.user._id; // Assuming you're using auth middleware and storing user info
+
+    const { name, bio, username } = req.body;
+    let updatedFields = { name, bio, username };
+
+    if (req.file) {
+      // Upload new image to Cloudinary
+      const imageUrl = await uploadToCloudinary(req.file.path);
+      updatedFields.profileImage = imageUrl;
+    }
+
+    const updatedUser = await UserModel.findByIdAndUpdate(
+      userId,
+      updatedFields,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    res.status(200).json({
+      success: true,
+      message: 'Pin updated successfully',
+      user: updatedUser,
+    });
+  } catch (error) {
+    console.log('Error updating user profile', error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+    next(error);
   }
 };

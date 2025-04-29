@@ -109,6 +109,32 @@ const UserContextProvider = ({ children }) => {
     }
   };
 
+  const updateProfile = async (formData) => {
+    try {
+      setLoading(true);
+      const response = await api.put('/api/auth/profile', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data', // Important
+        },
+      });
+
+      if (response.data.success) {
+        await fetchUser();
+        toast.success('Profile updated successfully');
+        navigate(`/profile`); // Redirect to profile page
+      }
+    } catch (error) {
+      console.error(
+        'Error updating user profile:',
+        error.response?.data || error.message
+      );
+      toast.error(
+        error.response?.data?.message || 'Error updating user profile'
+      );
+      setLoading(false);
+    }
+  };
+
   // Check if user is already logged in (on page refresh)
   useEffect(() => {
     fetchUser();
@@ -130,6 +156,7 @@ const UserContextProvider = ({ children }) => {
     unsplashKey,
     backendUrl,
     navigate,
+    updateProfile,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

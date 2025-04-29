@@ -16,6 +16,7 @@ import { Loading } from './Components/Loading';
 import PinPage from './Pages/PinPage';
 import CreatePin from './Pages/CreatePin';
 import EditPinPage from './Pages/EditPinPage';
+import EditProfile from './Pages/EditProfile';
 
 function App() {
   const { user, isAuthenticated, loading } = useContext(UserContext);
@@ -51,6 +52,12 @@ function App() {
             <Route
               path='/profile'
               element={isAuthenticated ? <Profile /> : <Navigate to='/login' />}
+            />
+            <Route
+              path='/edit-profile'
+              element={
+                isAuthenticated ? <EditProfile /> : <Navigate to='/login' />
+              }
             />
           </Routes>
           <Footer />

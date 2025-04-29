@@ -90,6 +90,7 @@ const PinContextProvider = ({ children }) => {
 
       if (response.data.success) {
         toast.success('Pin updated successfully');
+        await fetchSinglePin(pinId);
         navigate(`/pin/${pinId}`); // Redirect to view page
       }
     } catch (error) {

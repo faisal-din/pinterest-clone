@@ -2,6 +2,7 @@ import express from 'express';
 const userRouter = express.Router();
 
 import isAuthenticated from '../middlewares/auth.middleware.js';
+import { upload } from '../middlewares/multer.middleware.js';
 
 import {
   getAllUsers,
@@ -9,6 +10,7 @@ import {
   loginUser,
   logoutUser,
   registerUser,
+  updateUserProfile,
 } from '../controllers/user.controller.js';
 
 // /api/auth/register
@@ -25,5 +27,12 @@ userRouter.get('/users', getAllUsers);
 
 // /api/auth/:id
 userRouter.get('/:id', isAuthenticated, getCurrentUser);
+
+userRouter.put(
+  '/profile',
+  isAuthenticated,
+  upload.single('profileImage'),
+  updateUserProfile
+);
 
 export default userRouter;
