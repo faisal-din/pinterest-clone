@@ -9,6 +9,7 @@ const PinContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [pins, setPins] = useState([]);
   const [currentPin, setCurrentPin] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const navigate = useNavigate();
 
@@ -197,6 +198,8 @@ const PinContextProvider = ({ children }) => {
     createComment,
     deleteComment,
     togglePinLike,
+    searchTerm,
+    setSearchTerm,
   };
 
   return <PinContext.Provider value={values}>{children}</PinContext.Provider>;

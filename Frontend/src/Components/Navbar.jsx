@@ -1,10 +1,12 @@
 import { useContext } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { UserContext } from '../Context/UserContext';
+import { PinContext } from '../Context/PinContext';
 
 const Navbar = ({ user }) => {
   const { isAuthenticated, setIsAuthenticated, navigate } =
     useContext(UserContext);
+  const { searchTerm, setSearchTerm } = useContext(PinContext);
 
   const handleLogout = () => {
     setIsAuthenticated(false);
@@ -44,6 +46,8 @@ const Navbar = ({ user }) => {
         <div className='hidden sm:flex flex-1  items-center gap-2 rounded-full bg-gray-200 px-3 py-2'>
           <i className='fa-solid fa-search text-gray-400'></i>
           <input
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
             type='text'
             placeholder='Search for easy fashion, tech, and more'
             className='w-full bg-transparent border-none outline-none'
