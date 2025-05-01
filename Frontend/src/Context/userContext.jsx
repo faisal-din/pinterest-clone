@@ -6,14 +6,15 @@ import { toast } from 'react-toastify';
 export const UserContext = createContext();
 
 const UserContextProvider = ({ children }) => {
-  const [user, setUser] = useState([]);
+  const [currentUser, setCurrentUser] = useState([]);
   const [loading, setLoading] = useState(false);
   const [btnloading, setBTnLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const unsplashKey = import.meta.env.VITE_UNSPLASH_ACCESS_KEY;
   const navigate = useNavigate();
+
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   // Create an axios instance with default configs
   const api = axios.create({
@@ -32,7 +33,7 @@ const UserContextProvider = ({ children }) => {
 
       if (response.data.success) {
         toast.success(response.data.message);
-        setUser(response.data.user);
+        setCurrentUser(response.data.user);
         setIsAuthenticated(true);
         navigate('/');
       }
@@ -57,7 +58,7 @@ const UserContextProvider = ({ children }) => {
       if (response.data.success) {
         // Extract user data but filter out password
         const { password, ...userData } = response.data.user;
-        setUser(userData);
+        setCurrentUser(userData);
         setIsAuthenticated(true);
         toast.success(response.data.message);
         navigate('/');
@@ -77,7 +78,7 @@ const UserContextProvider = ({ children }) => {
       const response = await api.post('/api/auth/logout');
 
       if (response.data.success) {
-        setUser(null);
+        setCurrentUser(null);
         setIsAuthenticated(false);
         toast.success(response.data.message);
         navigate('/login');
@@ -90,19 +91,19 @@ const UserContextProvider = ({ children }) => {
     }
   };
 
-  const fetchUser = async () => {
+  const fetchMyProfile = async () => {
     try {
       setLoading(true);
-      const response = await api.get('/api/auth/user');
+      const response = await api.get('/api/auth/me');
 
       if (response.data.success) {
-        setUser(response.data.user);
+        setCurrentUser(response.data.user);
         setIsAuthenticated(true);
       }
     } catch (error) {
-      setUser(null);
+      setCurrentUser(null);
       setIsAuthenticated(false);
-      console.log('Fetch User error: ', error);
+      console.log('Fetch Current User error: ', error);
       toast.error(error.message);
     } finally {
       setLoading(false);
@@ -119,9 +120,9 @@ const UserContextProvider = ({ children }) => {
       });
 
       if (response.data.success) {
-        await fetchUser();
+        await fetchMyProfile();
         toast.success('Profile updated successfully');
-        navigate(`/profile`); // Redirect to profile page
+        navigate(`/myprofile`); // Redirect to profile page
       }
     } catch (error) {
       console.error(
@@ -137,12 +138,12 @@ const UserContextProvider = ({ children }) => {
 
   // Check if user is already logged in (on page refresh)
   useEffect(() => {
-    fetchUser();
+    fetchMyProfile();
   }, []);
 
   const value = {
-    user,
-    setUser,
+    currentUser,
+    setCurrentUser,
     loading,
     setLoading,
     btnloading,
@@ -150,7 +151,7 @@ const UserContextProvider = ({ children }) => {
     userRegister,
     userLogin,
     userLogout,
-    fetchUser,
+    fetchMyProfile,
     isAuthenticated,
     setIsAuthenticated,
     unsplashKey,

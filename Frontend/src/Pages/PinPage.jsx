@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { Loading } from '../Components/Loading';
 import { UserContext } from '../Context/UserContext';
 import { PinContext } from '../Context/PinContext';
 import CommentItem from '../Components/CommentItem';
 
 const PinPage = () => {
-  const { user, isAuthenticated, navigate } = useContext(UserContext);
+  const { currentUser, isAuthenticated, navigate } = useContext(UserContext);
   const {
     fetchSinglePin,
     deletePin,
@@ -62,17 +62,20 @@ const PinPage = () => {
   };
 
   const handleDeleteComment = (commentId) => deleteComment(pinId, commentId);
+
   const handleDeletePin = () => deletePin(pinId);
+
   const handleUpdatePin = () => {
     setMenuVisible(false);
     navigate(`/edit-pin/${pinId}`);
   };
 
-  const isOwner = user && localPin.owner && user._id === localPin.owner._id;
+  const isOwner =
+    currentUser && localPin.owner && currentUser._id === localPin.owner._id;
 
   return (
     <div className='mx-5 md:mx-8 lg:mx-14 xl:mx-[72px]  flex items-center justify-center'>
-      <div className='mt-16 flex flex-col md:flex-row items-stretch bg-white shadow-lg rounded-2xl overflow-hidden w-full max-h-[90vh] max-w-6xl border border-gray-400'>
+      <div className='mt-16 flex flex-col md:flex-row items-stretch bg-white shadow-lg rounded-2xl overflow-hidden w-full md:max-h-[90vh] max-w-6xl border border-gray-400'>
         <div className='w-full md:w-1/2 h-96 md:h-auto max-h-screen'>
           <img
             src={localPin.image}
@@ -92,7 +95,7 @@ const PinPage = () => {
                 >
                   <i
                     className={`fa-solid fa-heart text-xl ${
-                      localPin.likedBy.includes(user._id)
+                      localPin.likedBy.includes(currentUser._id)
                         ? 'text-red-600'
                         : 'text-gray-500'
                     }`}
@@ -143,16 +146,19 @@ const PinPage = () => {
 
             {/* Pin Creator */}
             {localPin.owner && (
-              <div className='flex items-center gap-3 mt-1'>
-                <img
-                  src='https://i.pinimg.com/75x75_RS/64/e1/0d/64e10d9fd2565527c4651caace60e6cb.jpg'
-                  alt='Creator'
-                  className='w-8 h-8 rounded-full object-cover'
-                />
-                <div>
+              <NavLink to={`/user/${localPin.owner._id}`}>
+                <div className='flex items-center gap-3 mt-1'>
+                  <img
+                    src={
+                      localPin.owner.image ||
+                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4YreOWfDX3kK-QLAbAL4ufCPc84ol2MA8Xg&s'
+                    }
+                    alt='Creator'
+                    className='w-8 h-8 rounded-full object-cover'
+                  />
                   <p className='font-medium'>{localPin.owner.name}</p>
                 </div>
-              </div>
+              </NavLink>
             )}
 
             {/* Description */}
@@ -173,7 +179,7 @@ const PinPage = () => {
                       key={commentData._id}
                       commentData={commentData}
                       onDelete={handleDeleteComment}
-                      currentUserId={user._id}
+                      currentUserId={currentUser._id}
                     />
                   ))}
                 </div>

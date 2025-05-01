@@ -6,7 +6,6 @@ import Home from './Pages/Home';
 import Login from './Pages/Login';
 import SignUp from './Pages/SignUp';
 import Explore from './Pages/Explore';
-import Profile from './Pages/Profile';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LandingPage from './Pages/LandingPage';
@@ -16,11 +15,13 @@ import { Loading } from './Components/Loading';
 import PinPage from './Pages/PinPage';
 import CreatePin from './Pages/CreatePin';
 import EditPinPage from './Pages/EditPinPage';
-import EditProfile from './Pages/EditProfile';
+import MyProfile from './Pages/MyProfile';
+import EditMyProfile from './Pages/EditMyProfile';
 import CategoryPage from './Pages/CategoryPage';
+import UserProfile from './Pages/UserProfile';
 
 function App() {
-  const { user, isAuthenticated, loading } = useContext(UserContext);
+  const { currentUser, isAuthenticated, loading } = useContext(UserContext);
 
   return (
     <>
@@ -29,7 +30,7 @@ function App() {
       ) : (
         <>
           <ToastContainer />
-          <Navbar user={user} />
+          <Navbar user={currentUser} />
           <Routes>
             <Route
               path='/'
@@ -52,13 +53,21 @@ function App() {
               element={isAuthenticated ? <Navigate to='/' /> : <SignUp />}
             />
             <Route
-              path='/profile'
-              element={isAuthenticated ? <Profile /> : <Navigate to='/login' />}
+              path='/myprofile'
+              element={
+                isAuthenticated ? <MyProfile /> : <Navigate to='/login' />
+              }
             />
             <Route
-              path='/edit-profile'
+              path='/edit-myprofile'
               element={
-                isAuthenticated ? <EditProfile /> : <Navigate to='/login' />
+                isAuthenticated ? <EditMyProfile /> : <Navigate to='/login' />
+              }
+            />
+            <Route
+              path='/user/:userId'
+              element={
+                isAuthenticated ? <UserProfile /> : <Navigate to='/login' />
               }
             />
           </Routes>

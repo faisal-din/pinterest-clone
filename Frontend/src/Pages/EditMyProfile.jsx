@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../Context/UserContext';
 
-const EditProfile = () => {
+const EditMyProfile = () => {
   const { user, updateProfile } = useContext(UserContext);
 
   const [profileImage, setProfileImage] = useState(null);
@@ -65,13 +65,9 @@ const EditProfile = () => {
               className='w-24 h-24 rounded-full object-cover border border-gray-300'
             />
           ) : (
-            <img
-              src={
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4YreOWfDX3kK-QLAbAL4ufCPc84ol2MA8Xg&s'
-              }
-              alt='Profile'
-              className='w-24 h-24 rounded-full object-cover border border-gray-300'
-            />
+            <div className='w-32 h-32 rounded-full bg-gray-300 flex items-center justify-center'>
+              <i className='fa-solid fa-user text-7xl text-gray-800'></i>
+            </div>
           )}
 
           <input
@@ -146,4 +142,4 @@ const EditProfile = () => {
   );
 };
 
-export default EditProfile;
+export default EditMyProfile;

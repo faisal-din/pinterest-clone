@@ -64,10 +64,18 @@ const Navbar = ({ user }) => {
             {isAuthenticated ? (
               <div className='flex items-center gap-3'>
                 <NavLink
-                  to='/profile'
+                  to='/myprofile'
                   className='w-9 h-9 rounded-full bg-gray-300 flex items-center justify-center text-xl text-gray-700'
                 >
-                  {user.name.slice(0, 1)}
+                  {user?.profileImage ? (
+                    <img
+                      src={user?.profileImage}
+                      alt='profile'
+                      className='w-full h-full rounded-full object-cover'
+                    />
+                  ) : (
+                    <i className='fa-solid fa-user'></i>
+                  )}
                 </NavLink>
                 <button
                   onClick={() => handleLogout()}

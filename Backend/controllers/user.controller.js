@@ -153,7 +153,7 @@ export const logoutUser = async (req, res, next) => {
   }
 };
 
-// Route for user profile
+// Route for all user profile
 export const getAllUsers = async (req, res, next) => {
   try {
     const users = await UserModel.find();
@@ -178,7 +178,7 @@ export const getAllUsers = async (req, res, next) => {
   }
 };
 
-// Route to get current user profile --> (GET) /api/auth/user
+// Route to get current or logged user profile --> (GET) /api/auth/user
 export const getCurrentUser = async (req, res, next) => {
   try {
     const user = await UserModel.findById(req.user.id).select('-password');
@@ -203,8 +203,35 @@ export const getCurrentUser = async (req, res, next) => {
   }
 };
 
-// Route to update user profile --> (PuT) /api/auth/profile
-export const updateUserProfile = async (req, res, next) => {
+// Route to get user profile by ID --> (GET) /api/auth/user/:id
+export const getUserById = async (req, res, next) => {
+  try {
+    const userId = req.params.id; // Get the user ID from the request parameters
+
+    const user = await UserModel.findById(userId).select('-password');
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// Route to update current user profile --> (PuT) /api/auth/profile
+export const updateMyProfile = async (req, res, next) => {
   try {
     const userId = req.user._id; // Assuming you're using auth middleware and storing user info
 

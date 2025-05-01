@@ -6,12 +6,12 @@ import ProfileHeader from '../Components/ProfileHeader';
 import { PinContext } from '../Context/PinContext';
 import PinCard from '../Components/PinCard';
 
-const Profile = () => {
-  const { user, loading } = useContext(UserContext);
+const MyProfile = () => {
+  const { currentUser, loading } = useContext(UserContext);
   const { pins } = useContext(PinContext);
 
   // filter pins based on user ID
-  const userPins = pins.filter((pin) => pin.owner._id === user._id);
+  const userPins = pins.filter((pin) => pin.owner._id === currentUser._id);
 
   if (loading) {
     return <Loading />;
@@ -19,7 +19,7 @@ const Profile = () => {
 
   return (
     <div className='flex flex-col min-h-screen'>
-      <ProfileHeader user={user} />
+      <ProfileHeader user={currentUser} />
 
       <hr className='border-gray-600 w-full mt-5' />
 
@@ -50,4 +50,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default MyProfile;

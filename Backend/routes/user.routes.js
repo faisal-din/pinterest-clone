@@ -7,10 +7,11 @@ import { upload } from '../middlewares/multer.middleware.js';
 import {
   getAllUsers,
   getCurrentUser,
+  getUserById,
   loginUser,
   logoutUser,
   registerUser,
-  updateUserProfile,
+  updateMyProfile,
 } from '../controllers/user.controller.js';
 
 // /api/auth/register
@@ -26,13 +27,16 @@ userRouter.post('/logout', logoutUser);
 userRouter.get('/users', getAllUsers);
 
 // /api/auth/:id
-userRouter.get('/:id', isAuthenticated, getCurrentUser);
+userRouter.get('/me', isAuthenticated, getCurrentUser);
+
+// /api/auth/user/:id
+userRouter.get('/user/:id', isAuthenticated, getUserById);
 
 userRouter.put(
   '/profile',
   isAuthenticated,
   upload.single('profileImage'),
-  updateUserProfile
+  updateMyProfile
 );
 
 export default userRouter;

@@ -19,8 +19,6 @@ const pinSchema = mongoose.Schema(
 
     likes: { type: Number, default: 0 },
     likedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    saves: { type: Number, default: 0 },
-    savedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     category: { type: String, required: true, trim: true },
   },
   {
