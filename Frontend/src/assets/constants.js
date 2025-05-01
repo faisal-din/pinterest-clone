@@ -1827,83 +1827,143 @@ export const pinData = [
   },
 ];
 
+// export const categories = [
+//   {
+//     id: 1,
+//     name: 'Animals',
+//     image:
+//       'https://i.pinimg.com/474x/cd/a2/be/cda2be611e4466e5e6182b627b18f851.jpg',
+//   },
+//   {
+//     id: 2,
+//     name: 'Art',
+//     image:
+//       'https://i.pinimg.com/236x/05/a6/98/05a698e8295457728ff5b0e5472d3f28.jpg',
+//   },
+//   {
+//     id: 3,
+//     name: 'Beauty',
+//     image:
+//       'https://i.pinimg.com/474x/3e/75/69/3e7569d750a771d5c5ed6ebd1c25aa19.jpg',
+//   },
+//   {
+//     id: 4,
+//     name: 'Design',
+//     image:
+//       'https://i.pinimg.com/474x/5d/92/e9/5d92e99a415012c93e65e529742a902c.jpg',
+//   },
+//   {
+//     id: 5,
+//     name: 'DIY and Crafts',
+//     image:
+//       'https://i.pinimg.com/474x/d4/3b/98/d43b985a3372a50816b6c243f1401358.jpg',
+//   },
+//   {
+//     id: 6,
+//     name: 'Food',
+//     image:
+//       'https://i.pinimg.com/236x/72/d9/af/72d9af964d384fc2a16fd087c1062a7c.jpg',
+//   },
+//   {
+//     id: 7,
+//     name: 'Home Decor',
+//     image:
+//       'https://i.pinimg.com/474x/ae/23/4d/ae234ddf0826afc435e6c1388d1cc3b8.jpg',
+//   },
+//   {
+//     id: 8,
+//     name: 'Fashion',
+//     image:
+//       'https://i.pinimg.com/474x/b8/ac/51/b8ac51e8e5d9de70114f431574907072.jpg',
+//   },
+//   {
+//     id: 9,
+//     name: 'Quotes',
+//     image:
+//       'https://i.pinimg.com/236x/d0/41/c4/d041c4558e68b0616e56cd5ed0d2794d.jpg',
+//   },
+//   {
+//     id: 10,
+//     name: 'Travel',
+//     image:
+//       'https://i.pinimg.com/474x/c2/ae/fb/c2aefbed78698218736102f618f7dd7d.jpg',
+//   },
+//   {
+//     id: 11,
+//     name: 'Tattos',
+//     image:
+//       'https://i.pinimg.com/474x/8d/fd/06/8dfd06c0d6d7e108ff6ecf939c0ee1b5.jpg',
+//   },
+//   {
+//     id: 12,
+//     name: 'Weddings',
+//     image:
+//       'https://i.pinimg.com/474x/a0/e3/8c/a0e38ce2caa7b7d311a02068bc8b9752.jpg',
+//   },
+//   {
+//     id: 13,
+//     name: 'Women`s Fashion',
+//     image:
+//       'https://i.pinimg.com/236x/bd/cd/8f/bdcd8fe1577ff288973074735f36bb05.jpg',
+//   },
+// ];
+
 export const categories = [
   {
     id: 1,
-    name: 'Animals',
+    name: 'Art',
     image:
-      'https://i.pinimg.com/474x/cd/a2/be/cda2be611e4466e5e6182b627b18f851.jpg',
+      'https://images.unsplash.com/photo-1577084381380-3b9ea4153664?q=80&w=2012&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
   },
   {
     id: 2,
-    name: 'Art',
-    image:
-      'https://i.pinimg.com/236x/05/a6/98/05a698e8295457728ff5b0e5472d3f28.jpg',
+    name: 'Food',
+    image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836',
   },
   {
     id: 3,
-    name: 'Beauty',
+    name: 'Travel',
     image:
-      'https://i.pinimg.com/474x/3e/75/69/3e7569d750a771d5c5ed6ebd1c25aa19.jpg',
+      'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=2021&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
   },
   {
     id: 4,
-    name: 'Design',
+    name: 'Fashion',
     image:
-      'https://i.pinimg.com/474x/5d/92/e9/5d92e99a415012c93e65e529742a902c.jpg',
+      'https://images.unsplash.com/photo-1506152983158-b4a74a01c721?q=80&w=2073&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
   },
   {
     id: 5,
-    name: 'DIY and Crafts',
-    image:
-      'https://i.pinimg.com/474x/d4/3b/98/d43b985a3372a50816b6c243f1401358.jpg',
+    name: 'Technology',
+    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475',
   },
   {
     id: 6,
-    name: 'Food',
+    name: 'DIY and Crafts',
     image:
-      'https://i.pinimg.com/236x/72/d9/af/72d9af964d384fc2a16fd087c1062a7c.jpg',
+      'https://images.unsplash.com/photo-1592199279376-d48388291e22?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
   },
   {
     id: 7,
-    name: 'Home Decor',
+    name: 'Fitness',
     image:
-      'https://i.pinimg.com/474x/ae/23/4d/ae234ddf0826afc435e6c1388d1cc3b8.jpg',
+      'https://plus.unsplash.com/premium_photo-1670505062582-fdaa83c23c9e?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
   },
   {
     id: 8,
-    name: 'Men`s Fashion',
+    name: 'Home Decor',
     image:
-      'https://i.pinimg.com/474x/b8/ac/51/b8ac51e8e5d9de70114f431574907072.jpg',
+      'https://images.unsplash.com/photo-1616046229478-9901c5536a45?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
   },
   {
     id: 9,
-    name: 'Quotes',
+    name: 'Photography',
     image:
-      'https://i.pinimg.com/236x/d0/41/c4/d041c4558e68b0616e56cd5ed0d2794d.jpg',
+      'https://images.unsplash.com/photo-1471341971476-ae15ff5dd4ea?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D ',
   },
   {
     id: 10,
-    name: 'Tattos',
-    image:
-      'https://i.pinimg.com/474x/8d/fd/06/8dfd06c0d6d7e108ff6ecf939c0ee1b5.jpg',
-  },
-  {
-    id: 11,
-    name: 'Travel',
-    image:
-      'https://i.pinimg.com/474x/c2/ae/fb/c2aefbed78698218736102f618f7dd7d.jpg',
-  },
-  {
-    id: 12,
-    name: 'Weddings',
-    image:
-      'https://i.pinimg.com/474x/a0/e3/8c/a0e38ce2caa7b7d311a02068bc8b9752.jpg',
-  },
-  {
-    id: 12,
-    name: 'Women`s Fashion',
-    image:
-      'https://i.pinimg.com/236x/bd/cd/8f/bdcd8fe1577ff288973074735f36bb05.jpg',
+    name: 'Nature',
+    image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb',
   },
 ];

@@ -14,12 +14,13 @@ export const createPin = async (req, res, next) => {
     const imageUrl = await uploadToCloudinary(req.file.path);
 
     // Extract pin data from request body
-    const { title, description, tags } = req.body;
+    const { title, description, category } = req.body;
 
     // Create new pin with Cloudinary image URL
     const newPin = new PinModel({
       title,
       description,
+      category,
       image: imageUrl, // Store the Cloudinary URL, not local file path
       owner: req.user._id, // Assuming authentication middleware provides user
     });

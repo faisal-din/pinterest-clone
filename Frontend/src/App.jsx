@@ -17,6 +17,7 @@ import PinPage from './Pages/PinPage';
 import CreatePin from './Pages/CreatePin';
 import EditPinPage from './Pages/EditPinPage';
 import EditProfile from './Pages/EditProfile';
+import CategoryPage from './Pages/CategoryPage';
 
 function App() {
   const { user, isAuthenticated, loading } = useContext(UserContext);
@@ -41,6 +42,7 @@ function App() {
             <Route path='create-pin' element={<CreatePin />} />
             <Route path='/pin/:pinId' element={<PinPage />} />
             <Route path='/edit-pin/:pinId' element={<EditPinPage />} />
+            <Route path='/category/:categoryName' element={<CategoryPage />} />
             <Route
               path='/login'
               element={isAuthenticated ? <Navigate to='/' /> : <Login />}

@@ -6,7 +6,7 @@ import { PinContext } from '../Context/PinContext';
 import CommentItem from '../Components/CommentItem';
 
 const PinPage = () => {
-  const { user, navigate } = useContext(UserContext);
+  const { user, isAuthenticated, navigate } = useContext(UserContext);
   const {
     fetchSinglePin,
     deletePin,
@@ -71,8 +71,8 @@ const PinPage = () => {
   const isOwner = user && localPin.owner && user._id === localPin.owner._id;
 
   return (
-    <div className='mx-5 md:mx-8 lg:mx-14 xl:mx-[72px] min-h-[60vh] flex items-center justify-center'>
-      <div className='mt-16 flex flex-col md:flex-row items-stretch bg-white shadow-lg rounded-2xl overflow-hidden w-full max-w-6xl border border-gray-400'>
+    <div className='mx-5 md:mx-8 lg:mx-14 xl:mx-[72px]  flex items-center justify-center'>
+      <div className='mt-16 flex flex-col md:flex-row items-stretch bg-white shadow-lg rounded-2xl overflow-hidden w-full max-h-[90vh] max-w-6xl border border-gray-400'>
         <div className='w-full md:w-1/2 h-96 md:h-auto max-h-screen'>
           <img
             src={localPin.image}
@@ -83,7 +83,8 @@ const PinPage = () => {
         </div>
         <div className='w-full md:w-1/2 flex flex-col bg-amber-50 h-auto max-h-screen relative'>
           <div className='py-2 px-3  overflow-y-auto flex-1'>
-            <div className='flex items-center justify-between'>
+            {/* Pin Header (like, share,  save) */}
+            <div className='sticky top-0 flex items-center justify-between z-10'>
               <div className='flex items-center space-x-4'>
                 <button
                   className='flex items-center space-x-2 cursor-pointer'
@@ -101,7 +102,7 @@ const PinPage = () => {
                 <button className='px-2 py-1 bg-gray-200 rounded-full hover:bg-gray-300 transition-colors cursor-pointer'>
                   <i className='fa-solid fa-share text-lg'></i>
                 </button>
-                {isOwner && (
+                {isOwner && isAuthenticated && (
                   <div className='relative'>
                     <button
                       onClick={() => setMenuVisible(!menuVisible)}
@@ -134,11 +135,15 @@ const PinPage = () => {
                 Save
               </button>
             </div>
+
+            {/* Pin Title */}
             <h1 className='text-3xl font-semibold mt-4'>
               {localPin.title || 'Untitled Pin'}
             </h1>
+
+            {/* Pin Creator */}
             {localPin.owner && (
-              <div className='flex items-center gap-3 mt-2'>
+              <div className='flex items-center gap-3 mt-1'>
                 <img
                   src='https://i.pinimg.com/75x75_RS/64/e1/0d/64e10d9fd2565527c4651caace60e6cb.jpg'
                   alt='Creator'
@@ -149,9 +154,14 @@ const PinPage = () => {
                 </div>
               </div>
             )}
-            <p className='mt-4 text-lg'>
-              {localPin.description || 'No description provided'}
-            </p>
+
+            {/* Description */}
+            <div className='max-h-24 overflow-y-auto'>
+              <p className='mt-4 text-base'>
+                {localPin.description || 'No description provided'}
+              </p>
+            </div>
+
             {localPin.comments?.length > 0 && (
               <div className='my-3'>
                 <h3 className='text-lg font-medium mb-2'>
