@@ -181,7 +181,10 @@ export const getAllUsers = async (req, res, next) => {
 // Route to get current or logged user profile --> (GET) /api/auth/user
 export const getCurrentUser = async (req, res, next) => {
   try {
-    const user = await UserModel.findById(req.user.id).select('-password');
+    const user = await UserModel.findById(req.user.id)
+      .select('-password')
+      .populate('followers', 'name')
+      .populate('following', 'name');
 
     if (!user) {
       return res.status(404).json({
@@ -233,7 +236,7 @@ export const getUserById = async (req, res, next) => {
 // Route to update current user profile --> (PuT) /api/auth/profile
 export const updateMyProfile = async (req, res, next) => {
   try {
-    const userId = req.user._id; // Assuming you're using auth middleware and storing user info
+    const userId = req.user._id;
 
     const { name, bio, username } = req.body;
     let updatedFields = { name, bio, username };
@@ -265,5 +268,66 @@ export const updateMyProfile = async (req, res, next) => {
       message: error.message,
     });
     next(error);
+  }
+};
+
+// Route to follow and unfollow a user by ID  --> (PUT) /api/auth/follow/:id
+export const followUser = async (req, res, next) => {
+  try {
+    const userId = req.params.id;
+    const currentUserId = req.user._id;
+
+    if (userId === currentUserId.toString()) {
+      return res.status(400).json({
+        success: false,
+        message: 'You cannot follow yourself',
+      });
+    }
+
+    const userToFollow = await UserModel.findById(userId);
+    const currentUser = await UserModel.findById(currentUserId);
+
+    if (!userToFollow || !currentUser) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+      });
+    }
+
+    const isFollowing = currentUser.following.includes(userId);
+
+    if (isFollowing) {
+      // Unfollow logic
+      currentUser.following.pull(userId);
+      currentUser.followingCount = Math.max(0, currentUser.followingCount - 1);
+
+      userToFollow.followers.pull(currentUserId);
+      userToFollow.followersCount = Math.max(
+        0,
+        userToFollow.followersCount - 1
+      );
+    } else {
+      // Follow logic
+      currentUser.following.push(userId);
+      currentUser.followingCount += 1;
+
+      userToFollow.followers.push(currentUserId);
+      userToFollow.followersCount += 1;
+    }
+
+    await currentUser.save();
+    await userToFollow.save();
+
+    res.status(200).json({
+      success: true,
+      message: isFollowing ? 'Unfollowed user' : 'Followed user',
+      user: currentUser,
+    });
+  } catch (error) {
+    console.error('Error in follow/unfollow user:', error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };

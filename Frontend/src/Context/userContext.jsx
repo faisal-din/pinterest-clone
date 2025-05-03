@@ -136,6 +136,43 @@ const UserContextProvider = ({ children }) => {
     }
   };
 
+  const toggleFollowUnfollow = async (userId) => {
+    try {
+      setLoading(true);
+      const response = await api.put(`/api/auth/follow/${userId}`);
+
+      console.log('Toggle Follow/Unfollow response:', response.data);
+
+      if (response.data.success) {
+        await fetchMyProfile();
+        toast.success(response.data.message);
+      }
+    } catch (error) {
+      console.error('Error toggling follow/unfollow:', error.response?.data);
+      toast.error(
+        error.response?.data?.message || 'Error toggling follow/unfollow'
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const [user, setUser] = useState([]);
+
+  // Fetch user profile by ID
+  const fetchUser = async (userId) => {
+    try {
+      const response = await api.get(`/api/auth/user/${userId}`);
+
+      if (response.data.success) {
+        setUser(response.data.user);
+      }
+    } catch (error) {
+      console.log('Fetch User error: ', error);
+      toast.error(error.message);
+    }
+  };
+
   // Check if user is already logged in (on page refresh)
   useEffect(() => {
     fetchMyProfile();
@@ -158,6 +195,9 @@ const UserContextProvider = ({ children }) => {
     backendUrl,
     navigate,
     updateProfile,
+    toggleFollowUnfollow,
+    fetchUser,
+    user,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

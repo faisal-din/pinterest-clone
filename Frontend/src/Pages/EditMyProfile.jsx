@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../Context/UserContext';
+import { LoadingAnimation } from '../Components/Loading';
 
 const EditMyProfile = () => {
-  const { user, updateProfile } = useContext(UserContext);
+  const { currentUser, updateProfile, loading } = useContext(UserContext);
 
   const [profileImage, setProfileImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
@@ -11,13 +12,13 @@ const EditMyProfile = () => {
   const [username, setUsername] = useState('');
 
   useEffect(() => {
-    if (user) {
-      setImagePreview(user.profileImage || null);
-      setName(user.name || '');
-      setBio(user.bio || '');
-      setUsername(user.username || '');
+    if (currentUser) {
+      setImagePreview(currentUser.profileImage || null);
+      setName(currentUser.name || '');
+      setBio(currentUser.bio || '');
+      setUsername(currentUser.username || '');
     }
-  }, [user]);
+  }, [currentUser]);
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -134,7 +135,7 @@ const EditMyProfile = () => {
             type='submit'
             className='w-full bg-red-500 text-white py-2 rounded-md hover:bg-red-600 transition cursor-pointer'
           >
-            Save Changes
+            {loading ? <LoadingAnimation /> : 'Save Changes'}
           </button>
         </form>
       </div>

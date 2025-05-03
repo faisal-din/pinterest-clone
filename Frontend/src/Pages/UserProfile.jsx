@@ -9,9 +9,8 @@ import PinCard from '../Components/PinCard';
 import { Loading } from '../Components/Loading';
 
 const UserProfile = () => {
-  const { loading } = useContext(UserContext);
+  const { loading, fetchUser, user } = useContext(UserContext);
   const { pins } = useContext(PinContext);
-  const [user, setUser] = useState([]);
 
   const { userId } = useParams();
 
@@ -28,7 +27,7 @@ const UserProfile = () => {
 
     const loadUser = async () => {
       if (isMounted) {
-        await fetchUser();
+        await fetchUser(userId);
       }
     };
 
@@ -40,20 +39,6 @@ const UserProfile = () => {
   }, [userId]);
 
   if (loading) return <Loading />;
-
-  // Fetch user profile by ID
-  const fetchUser = async () => {
-    try {
-      const response = await api.get(`/api/auth/user/${userId}`);
-
-      if (response.data.success) {
-        setUser(response.data.user);
-      }
-    } catch (error) {
-      console.log('Fetch User error: ', error);
-      toast.error(error.message);
-    }
-  };
 
   // filter pins based on user ID
   const userPins = pins.filter((pin) => pin.owner._id === user._id);

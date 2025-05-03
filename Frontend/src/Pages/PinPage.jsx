@@ -6,7 +6,8 @@ import { PinContext } from '../Context/PinContext';
 import CommentItem from '../Components/CommentItem';
 
 const PinPage = () => {
-  const { currentUser, isAuthenticated, navigate } = useContext(UserContext);
+  const { user, currentUser, isAuthenticated, navigate, toggleFollowUnfollow } =
+    useContext(UserContext);
   const {
     fetchSinglePin,
     deletePin,
@@ -70,8 +71,16 @@ const PinPage = () => {
     navigate(`/edit-pin/${pinId}`);
   };
 
+  const handleFollowUser = () => {
+    toggleFollowUnfollow(localPin.owner._id);
+  };
+
   const isOwner =
     currentUser && localPin.owner && currentUser._id === localPin.owner._id;
+
+  const isFollowing = (user.followers || [])
+    .map((id) => id.toString())
+    .includes(currentUser._id.toString());
 
   return (
     <div className='mx-5 md:mx-8 lg:mx-14 xl:mx-[72px]  flex items-center justify-center'>
@@ -146,24 +155,49 @@ const PinPage = () => {
 
             {/* Pin Creator */}
             {localPin.owner && (
-              <NavLink to={`/user/${localPin.owner._id}`}>
-                <div className='flex items-center gap-3 mt-1'>
-                  <img
-                    src={
-                      localPin.owner.image ||
-                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4YreOWfDX3kK-QLAbAL4ufCPc84ol2MA8Xg&s'
-                    }
-                    alt='Creator'
-                    className='w-8 h-8 rounded-full object-cover'
-                  />
-                  <p className='font-medium'>{localPin.owner.name}</p>
-                </div>
-              </NavLink>
+              <div className='flex items-center justify-between mt-4'>
+                <NavLink to={`/user/${localPin.owner._id}`}>
+                  <div className='flex items-center gap-2'>
+                    {/* Creator Image */}
+                    <img
+                      src={
+                        localPin.owner.image ||
+                        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4YreOWfDX3kK-QLAbAL4ufCPc84ol2MA8Xg&s'
+                      }
+                      alt='Creator'
+                      className='w-8 h-8 rounded-full object-cover'
+                    />
+                    {/* Creator Name and Followers Count */}
+                    <div className='flex flex-col'>
+                      <p className='text-base font-medium'>
+                        {localPin.owner.name}
+                      </p>
+                      <p className='text-sm text-gray-800 font-medium flex items-center gap-1'>
+                        <div>
+                          {localPin.owner.followersCount || 0} Followers
+                        </div>
+                      </p>
+                    </div>
+                  </div>
+                </NavLink>
+
+                {/* Follow Button */}
+                {isAuthenticated && currentUser._id !== localPin.owner._id && (
+                  <button
+                    onClick={handleFollowUser}
+                    type='button'
+                    className='bg-gray-200 hover:bg-gray-400 font-medium py-2 px-4 rounded-full focus:outline-none focus:shadow-outline cursor-pointer'
+                    aria-label='Follow user'
+                  >
+                    {isFollowing ? 'UnFollow' : 'Follow'}
+                  </button>
+                )}
+              </div>
             )}
 
             {/* Description */}
             <div className='max-h-24 overflow-y-auto'>
-              <p className='mt-4 text-base'>
+              <p className='mt-4 text-base break-words w-full'>
                 {localPin.description || 'No description provided'}
               </p>
             </div>

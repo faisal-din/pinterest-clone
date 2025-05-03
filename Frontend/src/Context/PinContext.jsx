@@ -59,8 +59,6 @@ const PinContextProvider = ({ children }) => {
     try {
       const response = await api.post('/api/pins/create', formData);
 
-      console.log('create pin response:', response);
-
       if (response.data.success) {
         // Update the pins state with the new pin
         setPins((prevPins) => [...prevPins, response.data.savedPin]);
@@ -108,7 +106,6 @@ const PinContextProvider = ({ children }) => {
     try {
       const response = await api.delete(`/api/pins/${pinId}`);
 
-      console.log('deleted pin response:', response.data);
       if (response.data.success) {
         toast.success('Pin deleted successfully');
         await fetchAllPins();

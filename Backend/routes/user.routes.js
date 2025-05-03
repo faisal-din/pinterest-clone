@@ -5,6 +5,7 @@ import isAuthenticated from '../middlewares/auth.middleware.js';
 import { upload } from '../middlewares/multer.middleware.js';
 
 import {
+  followUser,
   getAllUsers,
   getCurrentUser,
   getUserById,
@@ -39,4 +40,5 @@ userRouter.put(
   updateMyProfile
 );
 
+userRouter.put('/follow/:id', isAuthenticated, followUser);
 export default userRouter;
