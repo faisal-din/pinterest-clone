@@ -14,7 +14,7 @@ const Navbar = ({ user }) => {
   };
 
   return (
-    <nav>
+    <nav className='bg-white sticky top-0 z-50'>
       <div className=' flex justify-between items-center gap-3 py-4  sm:px-6 shadow-md'>
         {/* Logo and explore  */}
         <div className=' flex items-center  gap-4'>
@@ -28,7 +28,7 @@ const Navbar = ({ user }) => {
           {!isAuthenticated ? (
             <NavLink
               to='/explore'
-              className='py-2 px-3 rounded-full bg-black text-white'
+              className='py-2 px-3 rounded-full bg-gray-800 text-white'
             >
               <p>Explore</p>
             </NavLink>
