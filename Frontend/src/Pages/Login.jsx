@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react';
 import { UserContext } from '../Context/UserContext';
 import { Loading, LoadingAnimation } from '../Components/Loading';
+import { PinContext } from '../Context/PinContext';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -8,10 +9,12 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const { userLogin, btnloading, setBTnLoading } = useContext(UserContext);
+  const { fetchAllPins } = useContext(PinContext);
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     setBTnLoading(true);
+    await fetchAllPins();
     userLogin(email, password);
   };
 

@@ -1,4 +1,5 @@
 import PinModel from '../models/pinModel.js';
+import CommentModel from '../models/comment.model.js';
 import { uploadToCloudinary } from '../config/cloudinary.js';
 import { upload } from '../middlewares/multer.middleware.js';
 
@@ -112,7 +113,19 @@ export const getSinglePin = async (req, res, next) => {
 // Route for deleting a pin --> (DELETE) /api/pins/:id
 export const deletePin = async (req, res, next) => {
   try {
-    const pin = await PinModel.findByIdAndDelete(req.params.id);
+    const { id } = req.params; // Assuming you get the pin ID from URL params
+
+    // Find the pin first to make sure it exists
+    const pin = await PinModel.findById(id);
+    if (!pin) {
+      return res.status(404).json({ message: 'Pin not found' });
+    }
+
+    // Delete all comments associated with this pin
+    await CommentModel.deleteMany({ pin: id });
+
+    // Now delete the pin
+    await PinModel.findByIdAndDelete(id);
 
     res.status(200).json({
       success: true,
