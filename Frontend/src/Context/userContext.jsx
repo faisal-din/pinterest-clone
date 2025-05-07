@@ -6,12 +6,12 @@ import { toast } from 'react-toastify';
 export const UserContext = createContext();
 
 const UserContextProvider = ({ children }) => {
+  const [user, setUser] = useState([]);
   const [currentUser, setCurrentUser] = useState([]);
   const [loading, setLoading] = useState(false);
   const [btnloading, setBTnLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const unsplashKey = import.meta.env.VITE_UNSPLASH_ACCESS_KEY;
   const navigate = useNavigate();
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -157,8 +157,6 @@ const UserContextProvider = ({ children }) => {
     }
   };
 
-  const [user, setUser] = useState([]);
-
   // Fetch user profile by ID
   const fetchUser = async (userId) => {
     try {
@@ -166,6 +164,7 @@ const UserContextProvider = ({ children }) => {
 
       if (response.data.success) {
         setUser(response.data.user);
+        setIsAuthenticated(true);
       }
     } catch (error) {
       console.log('Fetch User error: ', error);
@@ -173,7 +172,7 @@ const UserContextProvider = ({ children }) => {
     }
   };
 
-  // Check if user is already logged in (on page refresh)
+  // Check if user is logged in on page refresh
   useEffect(() => {
     fetchMyProfile();
   }, []);
@@ -191,7 +190,6 @@ const UserContextProvider = ({ children }) => {
     fetchMyProfile,
     isAuthenticated,
     setIsAuthenticated,
-    unsplashKey,
     backendUrl,
     navigate,
     updateProfile,

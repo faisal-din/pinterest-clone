@@ -15,13 +15,16 @@ const Navbar = ({ user }) => {
 
   return (
     <nav className='bg-white sticky top-0 z-50'>
-      <div className=' flex justify-between items-center gap-3 py-4  sm:px-6 shadow-md'>
+      <div className=' flex justify-between items-center gap-3 py-4 px-3 sm:px-6 shadow-md'>
         {/* Logo and explore  */}
         <div className=' flex items-center  gap-4'>
           <Link to='/'>
-            <div className='flex items-center '>
-              <i className='fa-brands fa-pinterest text-[#E60023] w-5'></i>
-              <p className='text-lg text-[#E60023] font-bold'>Pinterest</p>
+            <div className='flex items-center pr-2'>
+              <i className='fa-brands fa-pinterest text-[#E60023] text-4xl sm:text-base w-5'></i>
+
+              <div className='hidden sm:flex'>
+                <p className='text-lg text-[#E60023] font-bold'>Pinterest</p>
+              </div>
             </div>
           </Link>
 
@@ -43,7 +46,7 @@ const Navbar = ({ user }) => {
         </div>
 
         {/* Search bar */}
-        {isAuthenticated ? (
+        {isAuthenticated && (
           <div className='hidden sm:flex flex-1  items-center gap-2 rounded-full bg-gray-200 px-3 py-2'>
             <i className='fa-solid fa-search text-gray-400'></i>
             <input
@@ -54,8 +57,6 @@ const Navbar = ({ user }) => {
               className='w-full bg-transparent border-none outline-none'
             />
           </div>
-        ) : (
-          ''
         )}
 
         {/* Log in and Sign up */}

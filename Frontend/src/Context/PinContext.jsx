@@ -70,6 +70,7 @@ const PinContextProvider = ({ children }) => {
         setDescription('');
 
         toast.success('Pin created successfully');
+        await fetchAllPins();
         navigate('/');
       }
     } catch (error) {

@@ -65,8 +65,11 @@ const Login = () => {
         </form>
 
         <p className='text-center text-gray-600 text-xs mt-4'>
-          By continuing, you agree to Pinterest's Terms of Service and
-          acknowledge you've read our Privacy Policy. Notice at collection.
+          By continuing, you agree to Pinterest's{' '}
+          <span className='text-gray-800 text-sm font-medium'>
+            Terms of Service
+          </span>{' '}
+          and acknowledge you've read our Privacy Policy. Notice at collection.
         </p>
 
         <button className='mt-2'>

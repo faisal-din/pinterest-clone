@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { assets } from '../assets/constants.js';
 
 const SeeIdeas = () => {
   return (
@@ -11,7 +12,7 @@ const SeeIdeas = () => {
           {/* Main content model with makeup */}
           <div className='h-screen relative'>
             <img
-              src='https://s.pinimg.com/webapp/shop-de7767c5.png'
+              src={assets.model_img}
               alt='Model with makeup'
               className='w-full h-full object-cover'
             />
@@ -29,7 +30,7 @@ const SeeIdeas = () => {
             <div className='absolute bottom-6 left-6 flex items-center'>
               <div className='rounded-full overflow-hidden w-16 h-16 border-2 border-white'>
                 <img
-                  src='https://s.pinimg.com/webapp/creator-pin-img-12386b1b.png'
+                  src={assets.creator_img}
                   alt='Scout the City profile'
                   className='w-full h-full object-cover'
                 />

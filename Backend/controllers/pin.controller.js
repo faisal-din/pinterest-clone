@@ -81,7 +81,7 @@ export const getAllPins = async (req, res, next) => {
 export const getSinglePin = async (req, res, next) => {
   try {
     const pin = await PinModel.findById(req.params.id)
-      .populate('owner', 'name followersCount')
+      .populate('owner', 'name followers')
       .populate({
         path: 'comments',
         populate: {

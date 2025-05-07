@@ -12,7 +12,7 @@ const SearchIdeas = () => {
             <div className='w-full md:w-1/2 relative'>
               <div className='relative'>
                 {/* Main image with rounded corners */}
-                <div className='w-full md:w-[400px] flex justify-center items-center  rounded-3xl overflow-hidden bg-yellow-400 relative'>
+                <div className='w-full md:w-[380px] flex justify-center items-center  rounded-3xl overflow-hidden bg-yellow-400 relative'>
                   <img
                     src='https://s.pinimg.com/webapp/center-c2550bb2.png'
                     alt='Plate of food with chicken dinner'

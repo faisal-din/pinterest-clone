@@ -14,13 +14,6 @@ const UserProfile = () => {
 
   const { userId } = useParams();
 
-  const backendUrl = import.meta.env.VITE_BACKEND_URL;
-  // Create an axios instance with default configs
-  const api = axios.create({
-    baseURL: backendUrl,
-    withCredentials: true,
-  });
-
   // Fetch user profile when component mounts or userId changes
   useEffect(() => {
     let isMounted = true;

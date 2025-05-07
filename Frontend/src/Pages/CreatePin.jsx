@@ -131,6 +131,7 @@ const CreatePin = () => {
                   <option value='Home Decor'>Home Decor</option>
                   <option value='Photography'>Photography</option>
                   <option value='Nature'>Nature</option>
+                  <option value='Others'>Others</option>
                 </select>
               </div>
 

@@ -1,7 +1,11 @@
 import logo from './icons/logo.jpg';
+import creator_img from './images/creator-img.png';
+import model_img from './images/model-img.png';
 
 export const assets = {
   logo,
+  creator_img,
+  model_img,
 };
 
 export const pinData = [

@@ -6,7 +6,7 @@ import { PinContext } from '../Context/PinContext';
 import CommentItem from '../Components/CommentItem';
 
 const PinPage = () => {
-  const { user, currentUser, isAuthenticated, navigate, toggleFollowUnfollow } =
+  const { currentUser, isAuthenticated, navigate, toggleFollowUnfollow } =
     useContext(UserContext);
   const {
     fetchSinglePin,
@@ -56,6 +56,7 @@ const PinPage = () => {
   }
 
   const handleLike = () => togglePinLike(pinId);
+
   const handleCreateComment = (e) => {
     e.preventDefault();
     if (!comment.trim()) return;
@@ -72,20 +73,22 @@ const PinPage = () => {
   };
 
   const handleFollowUser = () => {
-    toggleFollowUnfollow(localPin.owner._id);
+    if (localPin.owner && localPin.owner._id) {
+      toggleFollowUnfollow(localPin.owner._id);
+    }
   };
 
   const isOwner =
     currentUser && localPin.owner && currentUser._id === localPin.owner._id;
 
-  const isFollowing = (user.followers || [])
+  const isFollowing = (localPin.owner.followers || [])
     .map((id) => id.toString())
     .includes(currentUser._id.toString());
 
   return (
     <div className='mx-5 md:mx-8 lg:mx-14 xl:mx-[72px]  flex items-center justify-center'>
       <div className='mt-16 flex flex-col md:flex-row items-stretch bg-white shadow-lg rounded-2xl overflow-hidden w-full md:max-h-[90vh] max-w-6xl border border-gray-400'>
-        <div className='w-full md:w-1/2 h-96 md:h-auto max-h-screen'>
+        <div className='w-full md:w-1/2 h-96 md:h-auto min-h-[80vh]'>
           <img
             src={localPin.image}
             alt={localPin.title}
@@ -173,9 +176,7 @@ const PinPage = () => {
                         {localPin.owner.name}
                       </p>
                       <p className='text-sm text-gray-800 font-medium flex items-center gap-1'>
-                        <div>
-                          {localPin.owner.followersCount || 0} Followers
-                        </div>
+                        {localPin.owner.followers.length || 0} Followers
                       </p>
                     </div>
                   </div>

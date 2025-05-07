@@ -13,6 +13,9 @@ cloudinary.config({
 // Function to upload file to Cloudinary
 const uploadToCloudinary = async (filePath) => {
   try {
+    if (!filePath) return null; // Check if filePath is provided
+
+    // Upload file to Cloudinary
     const result = await cloudinary.uploader.upload(filePath, {
       folder: 'pinterest_clone', // Cloudinary folder
       use_filename: true,
