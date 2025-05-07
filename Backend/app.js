@@ -15,12 +15,7 @@ connectDB();
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
-app.use(
-  cors({
-    origin: process.env.ALLOWED_ORIGINS,
-    credentials: true,
-  })
-);
+app.use(cors());
 
 // API Endpoints
 app.use('/api/auth', authRouter);
