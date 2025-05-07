@@ -14,7 +14,7 @@ connectDB();
 
 const allowedOrigins =
   process.env.NODE_ENV === 'production'
-    ? ['https://pinterest-frontend-nu.vercel.app']
+    ? ['https://pinterest-frontend-omega.vercel.app']
     : ['http://localhost:5173'];
 
 // Middlewares
