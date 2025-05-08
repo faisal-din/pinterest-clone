@@ -57,7 +57,12 @@ const PinContextProvider = ({ children }) => {
   ) => {
     setLoading(true);
     try {
-      const response = await api.post('/api/pins/create', formData);
+      const response = await api.post('/api/pins/create', formData, {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
 
       if (response.data.success) {
         // Update the pins state with the new pin

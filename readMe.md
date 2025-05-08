@@ -41,27 +41,35 @@ A fully-featured Pinterest clone built with the MERN stack (MongoDB, Express, Re
 
 ### Landing Page
 
-![Landing Page](/api/placeholder/800/400)
+![Landing Page](https://pinterest-clone-brown.vercel.app/)
 
 ### Explore Page
 
-![Explore Page](/api/placeholder/800/400)
+![Explore Page](https://pinterest-clone-brown.vercel.app/explore)
 
 ### Login Page
 
-![Login Page](/api/placeholder/800/400)
+![Login Page](https://pinterest-clone-brown.vercel.app/login)
 
 ### Sign-Up Page
 
-![Sign-Up Page](/api/placeholder/800/400)
+![Sign-Up Page](https://pinterest-clone-brown.vercel.app/signup)
 
 ### Home Feed
 
-![Home Feed](/api/placeholder/800/400)
+![Home Feed](https://pinterest-clone-brown.vercel.app/)
 
 ### Pin Detail Page
 
 ![Pin Detail](/api/placeholder/800/400)
+
+### Create Pin Page
+
+![Create Pin](https://pinterest-clone-brown.vercel.app/create-pin)
+
+### Edit Pin Page
+
+![Edit Pin](https://pinterest-clone-brown.vercel.app/create-pin)
 
 ### User Profile
 
@@ -70,10 +78,6 @@ A fully-featured Pinterest clone built with the MERN stack (MongoDB, Express, Re
 ### Edit User Profile
 
 ![Edit User Profile](/api/placeholder/800/400)
-
-### Create Pin Page
-
-![Create Pin](/api/placeholder/800/400)
 
 ## 🛠️ Technologies Used
 
