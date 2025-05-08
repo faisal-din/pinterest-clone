@@ -20,11 +20,10 @@ const Home = () => {
       {searchedPins && searchedPins.length > 0 ? (
         searchedPins.map((pin) => <PinCard key={pin._id} pin={pin} />)
       ) : (
-        <div className='flex flex-col items-center justify-center min-h-[60vh]'>
-          <h2 className='text-2xl font-semibold text-red-600'>No pins found</h2>
-          <p className='mt-4'>
-            Nothing to show...yet! Pins you create will live here.
-          </p>
+        <div className='min-h-[60vh]'>
+          <h2 className='text-2xl text-center font-semibold text-red-600'>
+            No pins found
+          </h2>
         </div>
       )}
     </div>
