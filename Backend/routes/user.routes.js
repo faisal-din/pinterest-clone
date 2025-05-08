@@ -27,7 +27,7 @@ userRouter.post('/logout', logoutUser);
 // /api/auth/users
 userRouter.get('/users', getAllUsers);
 
-// /api/auth/:id
+// /api/auth/me
 userRouter.get('/me', isAuthenticated, getCurrentUser);
 
 // /api/auth/user/:id
