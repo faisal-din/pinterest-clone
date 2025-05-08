@@ -50,10 +50,14 @@ const UserContextProvider = ({ children }) => {
   const userLogin = async (email, password) => {
     try {
       setBTnLoading(true);
-      const response = await api.post('/api/auth/login', {
-        email,
-        password,
-      });
+      const response = await api.post(
+        '/api/auth/login',
+        {
+          email,
+          password,
+        },
+        { withCredentials: true }
+      );
 
       if (response.data.success) {
         // Extract user data but filter out password
@@ -171,11 +175,6 @@ const UserContextProvider = ({ children }) => {
       toast.error(error.message);
     }
   };
-
-  // Check if user is logged in on page refresh
-  useEffect(() => {
-    fetchMyProfile();
-  }, []);
 
   const value = {
     currentUser,
