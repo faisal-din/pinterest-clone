@@ -1,6 +1,6 @@
 # 📌 - A Pinterest Clone by Faisal Din
 
-![Pinterest ](/photos/login_page.png)
+![Pinterest Banner](/api/placeholder/1200/300)
 
 A fully-featured Pinterest clone built with the MERN stack (MongoDB, Express, React, Node.js), featuring user authentication, image uploads, interactive pins, comments, like/unlike, follow/unfollow and user profiles.
 
@@ -41,43 +41,43 @@ A fully-featured Pinterest clone built with the MERN stack (MongoDB, Express, Re
 
 ### Landing Page
 
-![Landing Page](/photos/landing_page.png)
+![Landing Page](/screenshots/landing_page.png)
 
 ### Explore Page
 
-![Explore Page](/photos/explore_page.png))
+![Explore Page](/screenshots/explore_page.png)
 
 ### Login Page
 
-![Login Page](/photos/login_page.png)
+![Login Page](/screenshots/login_page.png)
 
 ### Sign-Up Page
 
-![Sign-Up Page](/photos/sign_up.png)
+![Sign-Up Page](/screenshots/sign_up.png)
 
 ### Home Feed
 
-![Home Feed](/photos/home_page.png)
+![Home Feed](/screenshots/home_page.png)
 
 ### Pin Detail Page
 
-![Pin Detail](/photos/pin_page.png)
+![Pin Detail](/screenshots/pin_page.png)
 
 ### Create Pin Page
 
-![Create Pin](/photos/create-pin_page.png)
+![Create Pin](/screenshots/create-pin_page.png)
 
 ### Edit Pin Page
 
-![Edit Pin](/photos/edit-pin.png)
+![Edit Pin](/screenshots/edit-pin.png)
 
 ### User Profile
 
-![User Profile](/photos/user-profile.png)
+![User Profile](/screenshots/user-profile.png)
 
 ### Edit User Profile
 
-![Edit User Profile](/photos/edit-profile.png)
+![Edit User Profile](/screenshots/edit-profile.png)
 
 ## 🛠️ Technologies Used
 
