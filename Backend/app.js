@@ -12,10 +12,29 @@ const app = express();
 const port = process.env.PORT || 4000;
 connectDB();
 
+// CORS configuration with multiple allowed origins
+const allowedOrigins = [
+  'https://pinterest-clone-brown.vercel.app', // Production frontend
+  'http://localhost:5173', // Local development frontend
+];
+
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error('Not allowed by CORS'));
+    },
+    credentials: true,
+  })
+);
 
 // API Endpoints
 app.use('/api/auth', authRouter);

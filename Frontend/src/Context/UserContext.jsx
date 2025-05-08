@@ -50,14 +50,10 @@ const UserContextProvider = ({ children }) => {
   const userLogin = async (email, password) => {
     try {
       setBTnLoading(true);
-      const response = await api.post(
-        '/api/auth/login',
-        {
-          email,
-          password,
-        },
-        { withCredentials: true }
-      );
+      const response = await api.post('/api/auth/login', {
+        email,
+        password,
+      });
 
       if (response.data.success) {
         // Extract user data but filter out password
