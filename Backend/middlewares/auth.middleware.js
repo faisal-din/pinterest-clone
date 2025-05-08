@@ -6,11 +6,6 @@ const isAuthenticated = async (req, res, next) => {
     // Check for token in cookies OR in Authorization header
     let token = req.cookies.token;
 
-    // If no token in cookies, check Authorization header
-    if (!token && req.headers.authorization) {
-      token = req.headers.authorization.split(' ')[1]; // For Bearer token format
-    }
-
     if (!token) {
       return res.status(401).json({
         success: false,

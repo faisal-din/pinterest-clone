@@ -1,6 +1,6 @@
 # 📌 - A Pinterest Clone by Faisal Din
 
-![Pinterest Banner](/api/placeholder/1200/300)
+![Pinterest ](/photos/login_page.png)
 
 A fully-featured Pinterest clone built with the MERN stack (MongoDB, Express, React, Node.js), featuring user authentication, image uploads, interactive pins, comments, like/unlike, follow/unfollow and user profiles.
 
@@ -41,43 +41,43 @@ A fully-featured Pinterest clone built with the MERN stack (MongoDB, Express, Re
 
 ### Landing Page
 
-![Landing Page](https://pinterest-clone-brown.vercel.app/)
+![Landing Page](/photos/landing_page.png)
 
 ### Explore Page
 
-![Explore Page](https://pinterest-clone-brown.vercel.app/explore)
+![Explore Page](/photos/explore_page.png))
 
 ### Login Page
 
-![Login Page](https://pinterest-clone-brown.vercel.app/login)
+![Login Page](/photos/login_page.png)
 
 ### Sign-Up Page
 
-![Sign-Up Page](https://pinterest-clone-brown.vercel.app/signup)
+![Sign-Up Page](/photos/sign_up.png)
 
 ### Home Feed
 
-![Home Feed](https://pinterest-clone-brown.vercel.app/)
+![Home Feed](/photos/home_page.png)
 
 ### Pin Detail Page
 
-![Pin Detail](/api/placeholder/800/400)
+![Pin Detail](/photos/pin_page.png)
 
 ### Create Pin Page
 
-![Create Pin](https://pinterest-clone-brown.vercel.app/create-pin)
+![Create Pin](/photos/create-pin_page.png)
 
 ### Edit Pin Page
 
-![Edit Pin](https://pinterest-clone-brown.vercel.app/create-pin)
+![Edit Pin](/photos/edit-pin.png)
 
 ### User Profile
 
-![User Profile](/api/placeholder/800/400)
+![User Profile](/photos/user-profile.png)
 
 ### Edit User Profile
 
-![Edit User Profile](/api/placeholder/800/400)
+![Edit User Profile](/photos/edit-profile.png)
 
 ## 🛠️ Technologies Used
 
