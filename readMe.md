@@ -1,7 +1,5 @@
 # 📌 - A Pinterest Clone by Faisal Din
 
-![Pinterest Banner](/api/placeholder/1200/300)
-
 A fully-featured Pinterest clone built with the MERN stack (MongoDB, Express, React, Node.js), featuring user authentication, image uploads, interactive pins, comments, like/unlike, follow/unfollow and user profiles.
 
 ## ✨ Features
@@ -36,6 +34,36 @@ A fully-featured Pinterest clone built with the MERN stack (MongoDB, Express, Re
 - Delete your own comments
 - Follow/unfollow other users
 - View user profiles
+
+## 🛠️ Technologies Used
+
+### Frontend
+
+- React.js
+- React Router for navigation
+- Context API for state management
+- Axios for API requests
+- Tailwind CSS for styling
+
+### Backend
+
+- Node.js
+- Express.js
+- MongoDB (with Mongoose)
+- JWT for authentication
+- bcryptJS for password hashing
+
+### Storage
+
+- Cloudinary for image uploads and storage
+
+## 📝 Future Improvements
+
+- Implement notifications system
+- Add pin collections/boards
+- Add save and unsave pin
+- Add social sharing options
+- Implement infinite scrolling for pins
 
 ## 📸 Screenshots
 
@@ -79,28 +107,6 @@ A fully-featured Pinterest clone built with the MERN stack (MongoDB, Express, Re
 
 ![Edit User Profile](/screenshots/edit-profile.png)
 
-## 🛠️ Technologies Used
-
-### Frontend
-
-- React.js
-- React Router for navigation
-- Context API for state management
-- Axios for API requests
-- Tailwind CSS for styling
-
-### Backend
-
-- Node.js
-- Express.js
-- MongoDB (with Mongoose)
-- JWT for authentication
-- bcryptJS for password hashing
-
-### Storage
-
-- Cloudinary for image uploads and storage
-
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -137,7 +143,7 @@ PORT=5000
 MONGODB_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
 JWT_EXPIRE=jwt expiry period i,e 1d, 7d etc
-NODE_ENV='development'
+NODE_ENV=production
 CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
 CLOUDINARY_API_KEY=your_cloudinary_api_key
 CLOUDINARY_API_SECRET=your_cloudinary_api_secret
@@ -186,14 +192,6 @@ npm start
 - `POST /api/pins/:pinId/comments/create` - Add/Create a comment
 - `PUT  /api/pins/:pinId/comments/:id` - Update a comment
 - `DELETE /api/pins/:pinId/comments/:id` - Delete a comment
-
-## 📝 Future Improvements
-
-- Implement notifications system
-- Add pin collections/boards
-- Add save and unsave pin
-- Add social sharing options
-- Implement infinite scrolling for pins
 
 ## 👨‍💻 Contributing
 

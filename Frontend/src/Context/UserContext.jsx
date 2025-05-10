@@ -172,6 +172,10 @@ const UserContextProvider = ({ children }) => {
     }
   };
 
+  useEffect(() => {
+    fetchMyProfile();
+  }, []);
+
   const value = {
     currentUser,
     setCurrentUser,
