@@ -11,8 +11,11 @@ export const createPin = async (req, res, next) => {
       return res.status(400).json({ message: 'Image is required' });
     }
 
-    // Upload image to Cloudinary
-    const imageUrl = await uploadToCloudinary(req.file.path);
+    const fileBuffer = req.file.buffer;
+    const fileName = req.file.originalname;
+
+    // Upload image buffer to Cloudinary
+    const imageUrl = await uploadToCloudinary(fileBuffer, fileName);
 
     // Extract pin data from request body
     const { title, description, category } = req.body;
