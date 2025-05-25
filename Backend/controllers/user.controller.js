@@ -243,7 +243,10 @@ export const updateMyProfile = async (req, res, next) => {
 
     if (req.file) {
       // Upload new image to Cloudinary
-      const imageUrl = await uploadToCloudinary(req.file.path);
+      const imageUrl = await uploadToCloudinary(
+        req.file.buffer,
+        req.file.originalname
+      );
       updatedFields.profileImage = imageUrl;
     }
 

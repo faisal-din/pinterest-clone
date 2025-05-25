@@ -157,7 +157,10 @@ export const updatePin = async (req, res, next) => {
 
     if (req.file) {
       // If a new image is uploaded, upload it to Cloudinary
-      const imageUrl = await uploadToCloudinary(req.file.path);
+      const imageUrl = await uploadToCloudinary(
+        req.file.buffer,
+        req.file.originalname
+      );
       req.body.image = imageUrl; // Update the image URL in the request body
     }
 

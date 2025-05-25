@@ -87,6 +87,7 @@ const PinContextProvider = ({ children }) => {
   };
 
   const updatePin = async (pinId, formData) => {
+    setLoading(true);
     try {
       const response = await api.put(`/api/pins/${pinId}`, formData, {
         headers: {
@@ -105,6 +106,8 @@ const PinContextProvider = ({ children }) => {
         error.response?.data || error.message
       );
       toast.error(error.response?.data?.message || 'Error updating pin');
+    } finally {
+      setLoading(false);
     }
   };
 
