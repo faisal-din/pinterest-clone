@@ -16,7 +16,10 @@ const SaveIdeas = () => {
                 Collect your favorites so you can get back to them later.
               </p>
               <NavLink to='/explore'>
-                <button className='bg-red-600 text-white font-semibold px-8 py-3 rounded-full cursor-pointer'>
+                <button
+                  onClick={() => scrollTo(0, 0)}
+                  className='bg-red-600 text-white font-semibold px-8 py-3 rounded-full cursor-pointer'
+                >
                   Explore
                 </button>
               </NavLink>

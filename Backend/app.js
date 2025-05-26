@@ -30,6 +30,8 @@ const corsOptions = {
   credentials: true,
 };
 
+app.options('*', cors(corsOptions));
+
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());

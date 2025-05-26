@@ -80,7 +80,7 @@ const PinContextProvider = ({ children }) => {
       }
     } catch (error) {
       console.log('Error creating pin:', error);
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || 'Error creating pin');
     } finally {
       setLoading(false);
     }
@@ -122,7 +122,7 @@ const PinContextProvider = ({ children }) => {
       }
     } catch (error) {
       console.log('Error deleting pin:', error.response.data);
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || 'Error deleting pin');
     }
   };
 
@@ -168,7 +168,7 @@ const PinContextProvider = ({ children }) => {
       await fetchSinglePin(pinId);
     } catch (error) {
       console.log('Error creating comment:', error.response);
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message);
     }
   };
 
