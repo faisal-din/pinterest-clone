@@ -7,7 +7,7 @@ export const UserContext = createContext();
 
 const UserContextProvider = ({ children }) => {
   const [user, setUser] = useState([]);
-  const [currentUser, setCurrentUser] = useState([]);
+  const [currentUser, setCurrentUser] = useState([null]);
   const [loading, setLoading] = useState(false);
   const [btnloading, setBTnLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -81,7 +81,7 @@ const UserContextProvider = ({ children }) => {
         setCurrentUser(null);
         setIsAuthenticated(false);
         toast.success(response.data.message);
-        navigate('/login');
+        navigate('/');
       }
     } catch (error) {
       console.error('Logout error:', error);
@@ -104,7 +104,6 @@ const UserContextProvider = ({ children }) => {
       setCurrentUser(null);
       setIsAuthenticated(false);
       console.log('Fetch Current User error: ', error);
-      toast.error(error.message);
     } finally {
       setLoading(false);
     }

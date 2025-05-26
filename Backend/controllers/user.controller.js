@@ -178,7 +178,7 @@ export const getAllUsers = async (req, res, next) => {
   }
 };
 
-// Route to get current or logged user profile --> (GET) /api/auth/user
+// Route to get current or logged user profile --> (GET) /api/auth/me
 export const getCurrentUser = async (req, res, next) => {
   try {
     const user = await UserModel.findById(req.user.id)

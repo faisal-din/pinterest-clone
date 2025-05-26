@@ -2,6 +2,7 @@ import { useContext, useState } from 'react';
 import { UserContext } from '../Context/UserContext';
 import { Loading, LoadingAnimation } from '../Components/Loading';
 import { PinContext } from '../Context/PinContext';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -10,6 +11,8 @@ const Login = () => {
 
   const { userLogin, btnloading, setBTnLoading } = useContext(UserContext);
   const { fetchAllPins } = useContext(PinContext);
+
+  const navigate = useNavigate();
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
@@ -72,14 +75,17 @@ const Login = () => {
           and acknowledge you've read our Privacy Policy. Notice at collection.
         </p>
 
-        <button className='mt-2'>
+        <div className='mt-2'>
           <p className='text-center text-gray-600 text-sm font-semibold'>
             Not on Pinterest yet?{' '}
-            <a href='/signup' className='text-blue-600'>
+            <button
+              onClick={() => navigate('/signup')}
+              className='text-blue-600 cursor-pointer'
+            >
               Sign up
-            </a>
+            </button>
           </p>
-        </button>
+        </div>
       </div>
     </div>
   );

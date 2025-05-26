@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { UserContext } from '../Context/UserContext';
 
 import { LoadingAnimation } from '../Components/Loading';
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
   const [name, setName] = useState('');
@@ -10,6 +11,8 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const { userRegister, btnloading, setBTnLoading } = useContext(UserContext);
+
+  const navigate = useNavigate();
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
@@ -81,14 +84,17 @@ const SignUp = () => {
           and acknowledge you've read our Privacy Policy. Notice at collection.
         </p>
 
-        <button className='mt-2'>
+        <div className='mt-2'>
           <p className='text-center text-gray-600 text-sm font-semibold'>
             Already a member?{' '}
-            <a href='/login' className='text-blue-600'>
+            <button
+              onClick={() => navigate('/login')}
+              className='text-blue-600 cursor-pointer'
+            >
               Log in
-            </a>
+            </button>
           </p>
-        </button>
+        </div>
       </div>
     </div>
   );

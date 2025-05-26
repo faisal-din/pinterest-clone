@@ -4,13 +4,11 @@ import { UserContext } from '../Context/UserContext';
 import { PinContext } from '../Context/PinContext';
 
 const Navbar = ({ user }) => {
-  const { isAuthenticated, setIsAuthenticated, navigate } =
-    useContext(UserContext);
+  const { isAuthenticated, userLogout } = useContext(UserContext);
   const { searchTerm, setSearchTerm } = useContext(PinContext);
 
   const handleLogout = () => {
-    setIsAuthenticated(false);
-    navigate('/');
+    userLogout();
   };
 
   return (
